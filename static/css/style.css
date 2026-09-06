@@ -7,11 +7,11 @@
 :root {
     --ink: #1c1917;
     --paper: #faf6f0;
-    --accent: #d95d39;
-    --accent-dark: #a8442a;
+    --accent: #6F9BC0;
+    --accent-dark: #0A5593;
     --line: #e3d9c9;
-    --text-muted: #6b6459;
-    --radius: 4px;
+    --text-muted: #475256;
+    --radius: 20px;
 }
 
 body {
@@ -26,13 +26,26 @@ h1, .brand {
 }
 
 .container {
-    max-width: 960px;
+    max-width: 970px;
     margin: 0 auto;
     padding: 0 1.5rem;
 }
 
 .site-header {
     border-bottom: 1px solid var(--line);
+
+    /*buat bikin headernya sticky*/
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+
+    background-color: rgba(250, 245, 240, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(12px);
+
+    border-bottom: none;
 }
 
 .site-header .container {
@@ -61,7 +74,16 @@ h1, .brand {
 }
 
 .hero {
-    padding: 4.5rem 0 5rem;
+    padding: 8rem 0 5rem;
+}
+
+#profile {
+    background: #90bbdf; 
+    background: linear-gradient(0deg, rgba(250, 246, 240, 1) 0%, rgba(144, 187, 223, 1) 100%);
+}
+
+#experiences {
+    background: #faf6f0;
 }
 
 .hero-grid {
@@ -166,7 +188,7 @@ h1, .brand {
     aspect-ratio: 1 / 1;
     object-fit: cover;
     border-radius: var(--radius);
-    border: 3px solid var(--ink);
+    border: none;
 }
 
 .site-footer {
@@ -174,6 +196,133 @@ h1, .brand {
     color: var(--text-muted);
     font-size: 0.85rem;
     border-top: 1px solid var(--line);
+}
+
+.experiences-section {
+    padding-top: 5rem;
+    padding-bottom: 8rem;
+    padding-left: 0;
+    padding-right: 0;
+}
+.section-title {
+    font-family: "Space Grotesk", -apple-system, sans-serif;
+    font-size: clamp(2rem, 7vw, 4.5rem);
+    line-height: 0.95;
+    margin-bottom: 2rem;
+    color: var(--ink);
+}
+
+/* Mengatur wadah supaya card berbaris menyamping */
+.cards-container {
+    display: flex;
+    gap: 20px; 
+    overflow-x: auto; 
+    padding: 0 20px 20px 20px;
+    scrollbar-width: none;
+}
+.cards-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* card dan timeline atas-bawah*/
+.experience-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 320px;
+    flex-shrink: 0;
+}
+
+/* Desain card Utama */
+.experience-card {
+    background-color: #4A7A9C; 
+    border-radius: var(--radius);
+    width: 100%; 
+    flex-shrink: 0; 
+    overflow: hidden;
+    color: white; 
+    flex-grow: 1;
+}
+
+.card-image-wrapper {
+    padding: 16px 16px 0 16px;
+}
+
+.card-image {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 12px; 
+}
+
+.card-content {
+    padding: 16px;
+}
+
+.card-title {
+    font-size: 1.50rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 5px;
+}
+
+.card-subtitle {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-bottom: 12px;
+}
+
+.card-divider {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    margin-bottom: 16px;
+}
+
+.card-list {
+    padding-left: 18px; 
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.card-list li {
+    margin-bottom: 8px;
+}
+
+.timeline-container {
+    position: relative;
+    width: 100%; /* lebarnya sama kaya kartu */
+    display: flex;
+    justify-content: center;
+    margin-top: 24px; /* Jarak dari kartu ke kotak tahun */
+}
+
+/* buat garis horizontal */
+.timeline-container::before {
+    content: "";
+    position: absolute;
+    top: 50%; 
+    left: 0;
+    
+    width: calc(100% + 20px); 
+    height: 2px;
+    background-color: #b9d6ed; 
+    z-index: 0; /* Taruh garis di layer belakang */
+}
+
+/* Menghilangkan sisa garis yang keluar di card paling terakhir */
+.experience-column:last-child .timeline-container::before {
+    width: 100%;
+}
+
+.timeline-pill {
+    position: relative;
+    z-index: 1;
+    background-color: #c0dcf2;
+    color: #175487; 
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 8px 24px;
+    border-radius: 30px; 
 }
 
 @media (max-width: 600px) {
