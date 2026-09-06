@@ -1,3 +1,6 @@
+/* =================================================================
+   1. GLOBAL STRIBUTES & RESET
+   ================================================================ */
 * {
     margin: 0;
     padding: 0;
@@ -11,11 +14,11 @@ html {
 :root {
     --ink: #1c1917;
     --paper: #faf6f0;
-    --accent: #d95d39;
-    --accent-dark: #a8442a;
+    --accent: #6F9BC0;
+    --accent-dark: #0A5593;
     --line: #e3d9c9;
-    --text-muted: #6b6459;
-    --radius: 4px;
+    --text-muted: #475256;
+    --radius: 20px;
 }
 
 body {
@@ -30,13 +33,24 @@ h1, .brand {
 }
 
 .container {
-    max-width: 960px;
+    max-width: 970px;
     margin: 0 auto;
     padding: 0 1.5rem;
 }
 
+
+/* =================================================================
+   2. NAVIGATION BAR
+   ================================================================ */
 .site-header {
-    border-bottom: 1px solid var(--line);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    background-color: rgba(250, 245, 240, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(12px);
 }
 
 .site-header .container {
@@ -64,8 +78,17 @@ h1, .brand {
     font-size: 0.95rem;
 }
 
+
+/* =================================================================
+   3. PROFILE SECTION
+   ================================================================ */
 .hero {
-    padding: 4.5rem 0 5rem;
+    padding: 8rem 0 5rem;
+}
+
+#profile {
+    background: #90bbdf; 
+    background: linear-gradient(0deg, rgba(250, 246, 240, 1) 0%, rgba(144, 187, 223, 1) 100%);
 }
 
 .hero-grid {
@@ -170,9 +193,161 @@ h1, .brand {
     aspect-ratio: 1 / 1;
     object-fit: cover;
     border-radius: var(--radius);
-    border: 3px solid var(--ink);
+    border: none;
 }
 
+
+/* =================================================================
+   4. EXPERIENCES SECTION
+   ================================================================ */
+#experiences {
+    background: #faf6f0;
+}
+
+.experiences-section {
+    padding-top: 5rem;
+    padding-bottom: 8rem;
+}
+
+.section-title {
+    font-family: "Space Grotesk", -apple-system, sans-serif;
+    font-size: clamp(2rem, 7vw, 4.5rem);
+    line-height: 0.95;
+    margin-bottom: 2rem;
+    color: var(--ink);
+}
+
+/* Horizontal Scroll Cards */
+.cards-container {
+    display: flex;
+    gap: 20px; 
+    overflow-x: auto; 
+    padding: 0 20px 20px 20px;
+    scrollbar-width: none;
+}
+
+.cards-container::-webkit-scrollbar {
+    display: none;
+}
+ 
+.experience-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 320px;
+    flex-shrink: 0;
+}
+
+.experience-column:first-child .timeline-container::before {
+    left: 50%;
+    width: calc(50% + 20px);
+}
+
+.experience-column:last-child .timeline-container::before {
+    left: 0;
+    width: 50%;
+}
+
+/* Desain card utama */
+.experience-card {
+    background-color: #4A7A9C; 
+    border-radius: var(--radius);
+    width: 100%; 
+    flex-shrink: 0; 
+    overflow: hidden;
+    color: white; 
+    flex-grow: 1;
+}
+
+.card-image-wrapper {
+    padding: 16px 16px 0 16px;
+}
+
+.card-image {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 12px; 
+}
+
+.card-content {
+    padding: 16px;
+}
+
+.card-title {
+    font-size: 1.50rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 5px;
+}
+
+.card-subtitle {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-bottom: 12px;
+}
+
+.card-divider {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    margin-bottom: 16px;
+}
+
+.card-list {
+    padding-left: 18px; 
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.card-list li {
+    margin-bottom: 8px;
+}
+
+/* Komponen Timeline & Garis Penghubung */
+.timeline-container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+}
+
+.timeline-container::before {
+    content: "";
+    position: absolute;
+    top: 50%; 
+    left: 0;
+    width: calc(100% + 20px); 
+    height: 2px;
+    background-color: #b9d6ed; 
+    z-index: 0;
+}
+
+.experience-column:first-child .timeline-container::before {
+    left: 50%;
+    width: calc(50% + 20px);
+}
+
+.experience-column:last-child .timeline-container::before {
+    left: 0;
+    width: 50%;
+}
+
+.timeline-pill {
+    position: relative;
+    z-index: 1;
+    background-color: #c0dcf2;
+    color: #175487; 
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 8px 24px;
+    border-radius: 30px; 
+}
+
+
+/* =================================================================
+   5. FOOTER & RESPONSIVE MEDIA QUERIES
+   ================================================================ */
 .site-footer {
     padding: 1.5rem;
     color: var(--text-muted);
