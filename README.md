@@ -84,8 +84,9 @@ saya memprioritaskan tampilan desktop, namun sebenarnya tidak ada perbedaan sign
   1. membuat page experiences (sudah dibuat sejak tanggal 3, tapi baru commit tanggal 6 karna masih berantakan banget)
   2. implementasi horizontal scroll cards dengan flexbox, menambahkan tahun pada cards experiences
 - 7 sept 2026 :
-  3. mengupdate file README dengan menambahkan pertanyaan refleksi, progress, dan AI disclosure
-  4. update README dengan panduan setup lokal
+  1. mengupdate file README dengan menambahkan pertanyaan refleksi, progress, dan AI disclosure
+  2. update README dengan panduan setup lokal
+  3. refine final design, Melakukan modularisasi dan pengelompokan kode pada style.css, merapikan semantik HTML5
 
 
 ### AI Disclosure
@@ -94,7 +95,7 @@ menjelaskan penggunaan AI untuk membantu pengerjaan tugas 1 dan memperdalam pema
 
 tools : gemini
 
-link :
+link : https://share.gemini.google/EyfbTXw7E4hn 
 
 penggunaan:
 - menjelaskan cara kerja html dan css, membuat rangkuman keyword (tag & properti) yang sering digunakan pada html dan css

@@ -222,7 +222,7 @@ h1, .brand {
     display: flex;
     gap: 20px; 
     overflow-x: auto; 
-    padding: 0 20px 20px 20px;
+    padding: 12px 20px 20px 20px;
     scrollbar-width: none;
 }
 
@@ -257,6 +257,15 @@ h1, .brand {
     overflow: hidden;
     color: white; 
     flex-grow: 1;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efek saat card dihover */
+.experience-card:hover {
+    background: #0d3654;
+    background: linear-gradient(0deg, rgba(13, 54, 84, 1) 0%, rgba(74, 122, 156, 1) 100%);
+    transform: translateY(-4px);
 }
 
 .card-image-wrapper {
