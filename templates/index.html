@@ -4,16 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alya Tsabita Imani - Portfolio</title>
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom Stylesheet -->
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
+
+    <!-- ================= SITE HEADER ================= -->
     <header class="site-header">
         <div class="container">
             <a href="#profile" class="brand">AlyaTsbt</a>
-            <nav>
+            <nav aria-label="Main Navigation">
                 <a href="#profile">Profile</a>
                 <a href="#experiences">Experiences</a>
             </nav>
@@ -21,19 +27,27 @@
     </header>
 
     <main>
+        <!-- ================= HERO / PROFILE SECTION ================= -->
         <section class="hero" id="profile">
             <div class="container hero-grid">
                 <div class="hero-identity">
                     <p class="hero-kicker">Information System &middot; Universitas Indonesia</p>
                     <h1>Alya Tsabita Imani</h1>
                 </div>
+
                 <div class="hero-photo">
                     <div class="photo-block"></div>
                     <img class="avatar" src="/static/img/formalshot.png" alt="Photo of Alya Tsabita">
                 </div>
+
                 <div class="hero-details">
-                    <p class="bio"> A diligent and dedicated person with a deep interest in digital products design, 
-                                    particularly UI/UX.  Currently exploring the intersection of user-centric design and business requirements. Committed to developing impactful, human-centered digital solutions that address real-world challenges.</p>
+                    <p class="bio">
+                        A diligent and dedicated person with a deep interest in digital products design, 
+                        particularly UI/UX. Currently exploring the intersection of user-centric design 
+                        and business requirements. Committed to developing impactful, human-centered digital 
+                        solutions that address real-world challenges.
+                    </p>
+                    
                     <dl class="meta-list">
                         <div class="meta-row">
                             <dt>NPM</dt>
@@ -44,26 +58,28 @@
                             <dd>S1 Sistem Informasi</dd>
                         </div>
                     </dl>
+
                     <div class="social-links">
-                        <a href="https://github.com/Alyatsbt" class="social-link">GitHub</a>
-                        <a href="https://www.linkedin.com/in/alya-tsabita-imani/" class="social-link">LinkedIn</a>
+                        <a href="https://github.com/Alyatsbt" class="social-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+                        <a href="https://www.linkedin.com/in/alya-tsabita-imani/" class="social-link" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                         <a href="mailto:alya.tsabita@ui.ac.id" class="social-link">Email</a>
                     </div>
                 </div>
             </div>
         </section>
 
-
+        <!-- ================= EXPERIENCES SECTION ================= -->
         <section class="experiences-section" id="experiences"> 
             <div class="container">
-                <h1 class="section-title">Experiences</h1>
+                <h2 class="section-title">Experiences</h2>
                 
                 <div class="cards-container">
                     
+                    <!-- Kolom 1: COMPFEST -->
                     <div class="experience-column">
-                        <div class="experience-card">
+                        <article class="experience-card">
                             <div class="card-image-wrapper">
-                                <img src="/static/img/18.png" alt="COMPFEST Banner" class="card-image">
+                                <img src="/static/img/18.png" alt="Banner COMPFEST 18" class="card-image">
                             </div>
                             <div class="card-content">
                                 <h3 class="card-title">VPIC of Visual Design</h3>
@@ -74,16 +90,17 @@
                                     <li>Architecting a comprehensive Design System and visual guidelines using Figma to maintain brand consistency across all digital and physical platforms. Responsible for all event visual assets.</li>
                                 </ul>
                             </div>
-                        </div>
+                        </article>
                         <div class="timeline-container">
-                            <div class="timeline-pill">2026 - Recent</div>
+                            <div class="timeline-pill"><time datetime="2026">2026</time> – Recent</div>
                         </div>
                     </div>
-                    
+
+                    <!-- Kolom 2: BEM FASILKOM UI -->
                     <div class="experience-column">
-                        <div class="experience-card">
+                        <article class="experience-card">
                             <div class="card-image-wrapper">
-                                <img src="/static/img/19.png" alt="BEM FASILKOM Banner" class="card-image">
+                                <img src="/static/img/19.png" alt="Banner BEM FASILKOM UI" class="card-image">
                             </div>
                             <div class="card-content">
                                 <h3 class="card-title">Digital Marketing & Brand Strategist in Business and Partnership Bureau</h3>
@@ -94,16 +111,17 @@
                                     <li>Formulated targeted content plans and analyzed key audiences.</li>
                                 </ul>
                             </div>
-                        </div>
+                        </article>
                         <div class="timeline-container">
-                            <div class="timeline-pill">2026 - Recent</div>
+                            <div class="timeline-pill"><time datetime="2026">2026</time> – Recent</div>
                         </div>
                     </div>
-                   
+
+                    <!-- Kolom 3: DDP0 -->
                     <div class="experience-column">
-                        <div class="experience-card">
+                        <article class="experience-card">
                             <div class="card-image-wrapper">
-                                <img src="/static/img/20.png" alt="DDP0 Banner" class="card-image">
+                                <img src="/static/img/20.png" alt="Banner DDP0" class="card-image">
                             </div>
                             <div class="card-content">
                                 <h3 class="card-title">Staff of UI/UX</h3>
@@ -114,16 +132,17 @@
                                     <li>Collaborated closely with the technical team to translate project requirements into functional design solutions, ensuring accurate and seamless UI/UX implementation.</li>
                                 </ul>
                             </div>
-                        </div>
+                        </article>
                         <div class="timeline-container">
-                            <div class="timeline-pill">2026</div>
+                            <div class="timeline-pill"><time datetime="2026">2026</time></div>
                         </div>
                     </div>
-                    
+
+                    <!-- Kolom 4: BETIS FASILKOM -->
                     <div class="experience-column">
-                        <div class="experience-card">
+                        <article class="experience-card">
                             <div class="card-image-wrapper">
-                                <img src="/static/img/21.png" alt="BETIS Banner" class="card-image">
+                                <img src="/static/img/21.png" alt="Banner BETIS FASILKOM" class="card-image">
                             </div>
                             <div class="card-content">
                                 <h3 class="card-title">Staff of UI/UX</h3>
@@ -134,9 +153,9 @@
                                     <li>Conducted User Testing and validation to iterate on design solutions based on real user feedback and pain points.</li>
                                 </ul>
                             </div>
-                        </div>
+                        </article>
                         <div class="timeline-container">
-                            <div class="timeline-pill">2026</div>
+                            <div class="timeline-pill"><time datetime="2026">2026</time> – Recent</div>
                         </div>
                     </div>
 
@@ -145,10 +164,12 @@
         </section>
     </main>
 
+    <!-- ================= SITE FOOTER ================= -->
     <footer class="site-footer">
         <div class="container">
             <p>&copy; 2026 Alya Tsabita Imani. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
         </div>
     </footer>
+
 </body>
 </html>
