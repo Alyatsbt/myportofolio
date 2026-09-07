@@ -5,12 +5,65 @@ Kelas : PBP A
 
 ## Panduan setup lokal
 
+Ikuti langkah-langkah berikut untuk mengunduh dan menjalankan proyek ini di komputer lokal:
 
+#### 1. Clone Repositori
+Buka terminal (atau PowerShell/Git Bash), lalu jalankan perintah:
+```bash
+git clone [https://github.com/Alyatsbt/myportofolio.git](https://github.com/Alyatsbt/myportofolio.git)
+cd myportofolio
+
+```
+
+#### 2. Buat & Aktifkan Virtual Environment
+
+Gunakan virtual environment bawaan Python agar dependensi terisolasi:
+
+* **Windows (PowerShell):**
+```bash
+python -m venv env
+.\env\Scripts\Activate
+
+```
+
+* **macOS / Linux:**
+```bash
+python3 -m venv env
+source env/bin/activate
+
+```
+
+#### 3. Instalasi Dependensi
+
+Pastikan environment sudah aktif (ditandai tanda `(env)` di awal baris terminal), lalu jalankan:
+
+```bash
+pip install -r requirements.txt
+
+```
+
+#### 4. Jalankan Server Django
+
+Jalankan perintah berikut untuk menyalakan server lokal:
+
+```bash
+python manage.py runserver
+
+```
+
+#### 5. Buka di Peramban
+
+Buka peramban (browser) dan akses alamat berikut:
+👉 `http://localhost:8000/` atau `http://127.0.0.1:8000/`
+
+```
+
+```
 
 ## Tugas 1
 
 ### Pertanyaan Reflektif
-1. Ya, saya menggunakan beberapa elemen semantik HTML5 diantaranya <section>, <main>, <nav> untuk 2 page utama dan <footer>, dan <header>, tag ini membantu dalam membentuk struktur hierarki yang rapi pada html dan untuk memudahkan design css (untuk selector).
+1. Ya, saya menggunakan beberapa elemen semantik HTML5 diantaranya `<section>`, `<main>`, `<nav>` untuk 2 page utama dan `<footer>`, dan `<header>`, tag ini membantu dalam membentuk struktur hierarki yang rapi pada html dan untuk memudahkan design css (untuk selector).
 
 2. kesulitan saya pada page experience karna ingin membuatnya horizontal scroll (aga bermasalah karna awalnya bertumpuk vertikal). 
 saya memprioritaskan tampilan desktop, namun sebenarnya tidak ada perbedaan signifikan atau permasalahan kompleks karna untuk page profile dari templatenya sudah cocok dengan saya dan untuk experience page saya menggunakan clamp() supaya ukuran elemen menyesuaikan layar.
@@ -27,6 +80,13 @@ saya memprioritaskan tampilan desktop, namun sebenarnya tidak ada perbedaan sign
 - 2 sept 2026 : 
   1. update credetial database 
   2. progress pada page profile (manambahkan data diri, dll)
+- 6 sept 2026 :
+  1. membuat page experiences (sudah dibuat sejak tanggal 3, tapi baru commit tanggal 6 karna masih berantakan banget)
+  2. implementasi horizontal scroll cards dengan flexbox, menambahkan tahun pada cards experiences
+- 7 sept 2026 :
+  3. mengupdate file README dengan menambahkan pertanyaan refleksi, progress, dan AI disclosure
+  4. update README dengan panduan setup lokal
+
 
 ### AI Disclosure
 
