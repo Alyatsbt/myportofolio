@@ -19,6 +19,8 @@ html {
     --line: #e3d9c9;
     --text-muted: #475256;
     --radius: 20px;
+    --card-gradient: linear-gradient(180deg, #76a1be 0%, #3D6B8C 100%);
+    --card-gradient-hover: linear-gradient(180deg, #36648a 0%, #0D2B42 100%);
 }
 
 body {
@@ -247,7 +249,7 @@ h1, .brand {
 
 /* Desain card utama */
 .experience-card {
-    background-color: #4A7A9C; 
+    background: var(--card-gradient); 
     border-radius: var(--radius);
     width: 100%; 
     flex-shrink: 0; 
@@ -260,9 +262,9 @@ h1, .brand {
 
 /* Efek saat card dihover */
 .experience-card:hover {
-    background: #0d3654;
-    background: linear-gradient(0deg, rgba(13, 54, 84, 1) 0%, rgba(74, 122, 156, 1) 100%);
-    transform: translateY(-4px);
+    background: var(--card-gradient-hover);
+    transform: translateY(-8px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
 }
 
 .card-image-wrapper {
@@ -386,6 +388,10 @@ h1, .brand {
             "photo"
             "details";
         gap: 2rem;
+    }
+
+    .hero-details {
+        padding: 0.5rem;
     }
 
     .hero-identity h1, 

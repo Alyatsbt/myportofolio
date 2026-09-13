@@ -8,7 +8,7 @@ def show_main(request):
         "nameCard": "AlyaTsbt",
         "name": "Alya Tsabita Imani",
         "npm": "2506620192",
-        "study_program": "S1 Sistem Informasi",
+        "study_program": "Information System",
         "bio": (
             "A diligent and dedicated person with a deep interest in digital products design. " 
             "Committed to developing impactful, human-centered digital solutions" 
