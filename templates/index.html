@@ -17,12 +17,13 @@
 <body>
 
     <!-- ================= SITE HEADER ================= -->
-    <header class="site-header">
-        <div class="container">
-            <a href="#profile" class="brand">AlyaTsbt</a>
+    <header class="floating-nav">
+        <div class="nav-content">
+            <img src="/static/img/Subtract.png" alt="Cat Icon" class="nav-icon">
             <nav aria-label="Main Navigation">
-                <a href="{% url 'main:show_main' %}">Profile</a>
-                <a href="{% url 'main:show_experience' %}">Experience</a>
+                <a href="#profile">Profile</a>
+                <a href="#experiences">Experiences</a>
+                <a href="/projects/">Projects</a>
             </nav>
         </div>
     </header>
@@ -37,8 +38,7 @@
                 </div>
 
                 <div class="hero-photo">
-                    <div class="photo-block"></div>
-                    <img class="avatar" src="/static/img/formalshot.png" alt="Photo of {{ name }}">
+                    <img class="avatar" src="/static/img/profile.png" alt="Photo of {{ name }}">
                 </div>
 
                 <div class="hero-details">

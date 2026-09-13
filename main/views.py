@@ -6,13 +6,14 @@ from main.models import Experience
 def show_main(request):
     context = {
         "nameCard": "AlyaTsbt",
-        "name": "Alya Tsabita",
+        "name": "Alya Tsabita Imani",
         "npm": "2506620192",
         "study_program": "S1 Sistem Informasi",
         "bio": (
             "A diligent and dedicated person with a deep interest in digital products design. " 
             "Committed to developing impactful, human-centered digital solutions" 
         ),
+        "experience_list": Experience.objects.all(),
     }
     return render(request, "index.html", context)
 
