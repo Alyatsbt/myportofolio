@@ -103,3 +103,42 @@ penggunaan:
 - membantu permasalahan git seperti merge conflict dll
 
 AI banyak membantu dalam realisasi ide design yang saya buat di figma serta memperluas wawasan saya mengenai struktur padding, margin dll di css, namun beberapa kali tidak menangkap pertanyaan saya seperti bagaimana cara membuat background header berubah, sehingga saya akali dengan membuat padding profile lebih tinggi dan membuat header position fixed (AI mneyarankan sticky tapi tidak memenuhi ide saya).
+
+## Tugas 2
+
+### Pertanyaan Reflektif
+1. Saat kita membuka alamat `/projects/`, permintaan dari browser pertama kali diterima oleh `urls.py` proyek yang kemudian meneruskannya ke `urls.py` milik aplikasi `main`. Dari situ, rute diarahkan ke fungsi `view` yang bertugas memanggil data dari `model`. Setelah datanya diambil, `view` memasukkan ke dalam *context* dan mengirimkannya `template` HTML. Django kemudian memproses template tersebut bersama data yang ada hingga menghasilkan tampilan web yang utuh dan menampilkannya kembali di browser.
+
+2. data untuk portofolio disimpan terpisah agar memudahkan maintenance dan apabila ada update mengenai data portofolio, yang diubah hanya model yang menyimpan data sehingga mengurangi risiko rusaknya struktur HTML, kemudian mencegah repetisi jika design html semakin kompleks
+
+3. `makemigrations` bertugas membuat berkas catatan atau rancangan mengenai perubahan yang terjadi pada berkas `models.py`, sedangkan `migrate` bertugas mengeksekusi rancangan tersebut langsung ke data yang sedang digunakan. Contohnya saat kita membuat model baru seperti `Project` atau menambahkan kolom baru seperti `organization` pada model `Experience`. Kita wajib menjalankan `makemigrations` terlebih dahulu untuk mencatat perubahan strukturnya, lalu menjalankan `migrate` agar tabel atau kolom baru tersebut benar-benar terbentuk di dalam database
+
+### Progress Mingguan
+**full commit history bisa dilihat di branch tugas-2 dan main**
+- 9 sept 2026 :
+  1. menurunkan versi Django di requirements.txt agar kompatibel saat deployment di PWS
+  2. menyelesaikan implementasi konsep MVT Tutorial 2 untuk bagian Experience
+- 13 sept 2026 :
+  1. melakukan refactor dan penyesuaian desain UI pada bagian navbar serta profil
+  2. mengubah tampilan halaman experiences dari data statis menjadi dinamis
+- 14 sept 2026 :
+  1. membuat halaman baru Projects dengan alur MVT lengkap (pembuatan model Project, migrasi, view, routing URL, dan template dinamis)
+  2. menambahkan fixture data.json serta merapikan panjang karakter URL prototype agar data berhasil dimuat di database server PWS
+  3. memperbaiki penamaan berkas gambar banner (case-sensitivity dan typo) agar terbaca dengan baik di server
+  4. menambahkan unit test baru untuk halaman dan model Projects (memastikan seluruh 9 test berhasil lulus)
+  
+### AI Disclosure
+menjelaskan penggunaan AI untuk membantu pengerjaan tugas 2 dan memperdalam pemahaman.
+
+tools : gemini
+
+link : https://share.gemini.google/NWxgH6LAKHPM 
+
+penggunaan:
+- membantu memahami implementasi MVT dan cara kerjanya
+- membantu troubleshooting error pada unit test (menyesuaikan assertion template dan mengatasi NameError pada import model)
+- membantu penyesuaian styling CSS, seperti mengubah fonts dan mengatur ukuran blur background radial-gradient
+- membantu mengatasi kendala deployment di PWS, seperti pembuatan fixture data.json, pemotongan URL Figma yang melebihi batas karakter PostgreSQL, dan masalah case-sensitivity pada berkas gambar
+- membantu pemahaman mengenai migrations di terminal dan mengapa harus melakukan hal tersebut
+
+AI sangat membantu mempercepat proses pencarian solusi saat menghadapi kendala teknis dan debugging, terutama terkait error di lingkungan server PWS dan unit test. Namun, beberapa saran awal tidak langsung bisa dipakai begitu saja. Misalnya saat AI menyarankan eksekusi kode oneliner di terminal PWS yang sempat error karena karakter '&' pada URL Figma, sehingga akhirnya dialihkan menggunakan JSON. 
