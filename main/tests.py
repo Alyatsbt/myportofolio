@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 
-from main.models import Experience
+from main.models import Experience, Project
 
 
 class MainTest(TestCase):
@@ -15,15 +15,12 @@ class MainTest(TestCase):
 
     def test_main_url_is_accessible(self):
         response = self.client.get(reverse("main:show_main"))
-
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "index.html")
-        self.assertNotContains(response, self.experience.title)
-        self.assertContains(response, f'href="{reverse("main:show_experience")}"')
+        self.assertContains(response, self.experience.title)
 
     def test_nonexistent_page_returns_404(self):
         response = self.client.get("/halaman-yang-tidak-ada/")
-
         self.assertEqual(response.status_code, 404)
 
     def test_experience_model(self):
@@ -33,7 +30,6 @@ class MainTest(TestCase):
 
     def test_experience_page(self):
         response = self.client.get(reverse("main:show_experience"))
-
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "experience.html")
         self.assertContains(response, self.experience.title)
@@ -45,7 +41,6 @@ class MainTest(TestCase):
     def test_empty_experience_page(self):
         Experience.objects.all().delete()
         response = self.client.get(reverse("main:show_experience"))
-
         self.assertContains(response, "Belum ada pengalaman yang ditambahkan.")
 
     def test_completed_experience(self):
@@ -56,3 +51,31 @@ class MainTest(TestCase):
         self.assertFalse(self.experience.is_ongoing)
         self.assertContains(response, "Selesai")
         self.assertNotContains(response, "Sedang berlangsung")
+
+class ProjectTest(TestCase):
+    def setUp(self):
+        self.project = Project.objects.create(
+            title="FocusBuddy",
+            subtitle="AI-Powered Task Decomposition",
+            description="A cognitive-friendly productivity platform",
+            thumbnail="/static/img/focusbuddyframe.png",
+            project_url="https://www.figma.com",
+        )
+
+    def test_projects_url_is_accessible_and_uses_correct_template(self):
+        response = self.client.get(reverse("main:show_projects"))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "projects.html")
+
+    def test_projects_page_displays_data(self):
+        response = self.client.get(reverse("main:show_projects"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.project.title)
+        self.assertContains(response, self.project.subtitle)
+        self.assertContains(response, self.project.description)
+
+    def test_empty_projects_page(self):
+        Project.objects.all().delete()
+        response = self.client.get(reverse("main:show_projects"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Belum ada project yang ditambahkan.")

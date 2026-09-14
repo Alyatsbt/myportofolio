@@ -8,7 +8,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     
     <!-- Custom Stylesheet -->
     <link rel="stylesheet" href="/static/css/style.css">
@@ -17,12 +17,13 @@
 <body>
 
     <!-- ================= SITE HEADER ================= -->
-    <header class="site-header">
-        <div class="container">
-            <a href="#profile" class="brand">AlyaTsbt</a>
+    <header class="floating-nav">
+        <div class="nav-content">
+            <img src="/static/img/Subtract.png" alt="Cat Icon" class="nav-icon">
             <nav aria-label="Main Navigation">
-                <a href="{% url 'main:show_main' %}">Profile</a>
-                <a href="{% url 'main:show_experience' %}">Experience</a>
+                <a href="#profile">Profile</a>
+                <a href="#experiences">Experiences</a>
+                <a href="/projects/">Projects</a>
             </nav>
         </div>
     </header>
@@ -37,8 +38,7 @@
                 </div>
 
                 <div class="hero-photo">
-                    <div class="photo-block"></div>
-                    <img class="avatar" src="/static/img/formalshot.png" alt="Photo of {{ name }}">
+                    <img class="avatar" src="/static/img/profile.png" alt="Photo of {{ name }}">
                 </div>
 
                 <div class="hero-details">
@@ -46,7 +46,7 @@
                     
                     <dl class="meta-list">
                         <div class="meta-row">
-                            <dt>NPM</dt>
+                            <dt>student ID</dt>
                             <dd>{{ npm }}</dd>
                         </div>
                         <div class="meta-row">
@@ -70,92 +70,43 @@
                 <h2 class="section-title">Experiences</h2>
                 
                 <div class="cards-container">
-                    
-                    <!-- Kolom 1: COMPFEST -->
+                    {% for experience in experience_list %}
                     <div class="experience-column">
                         <article class="experience-card">
+
                             <div class="card-image-wrapper">
-                                <img src="/static/img/18.png" alt="Banner COMPFEST 18" class="card-image">
+                                {% if experience.thumbnail %}
+                                    <img src="{{ experience.thumbnail }}" alt="Banner {{ experience.title }}" class="card-image">
+                                {% else %}
+                                    <img src="/static/img/18.png" alt="Default Banner" class="card-image">
+                                {% endif %}
                             </div>
+
                             <div class="card-content">
-                                <h3 class="card-title">VPIC of Visual Design</h3>
-                                <p class="card-subtitle">@ Compfest</p>
+                                <h3 class="card-title">{{ experience.title }}</h3>
+                                <p class="card-subtitle">@ {{ experience.organization }}</p>
                                 <hr class="card-divider">
-                                <ul class="card-list">
-                                    <li>Leading and managing a dedicated visual design team to ensure high-quality creative output for the largest student-led IT event in Indonesia.</li>
-                                    <li>Architecting a comprehensive Design System and visual guidelines using Figma to maintain brand consistency across all digital and physical platforms. Responsible for all event visual assets.</li>
-                                </ul>
+                                <p class="card-description">
+                                    {{ experience.description }}
+                                </p>
                             </div>
                         </article>
-                        <div class="timeline-container">
-                            <div class="timeline-pill"><time datetime="2026">2026</time> – Recent</div>
+
+                    <div class="timeline-container">
+                        <div class="timeline-pill">
+                            <time>{{ experience.started_at|date:"Y" }}</time>
+                            {% if experience.is_ongoing %}
+                                – Recent
+                            {% elif experience.ended_at and experience.started_at|date:"Y" != experience.ended_at|date:"Y" %}
+                                – {{ experience.ended_at|date:"Y" }}
+                            {% endif %}
                         </div>
                     </div>
-
-                    <!-- Kolom 2: BEM FASILKOM UI -->
-                    <div class="experience-column">
-                        <article class="experience-card">
-                            <div class="card-image-wrapper">
-                                <img src="/static/img/19.png" alt="Banner BEM FASILKOM UI" class="card-image">
-                            </div>
-                            <div class="card-content">
-                                <h3 class="card-title">Digital Marketing & Brand Strategist in Business and Partnership Bureau</h3>
-                                <p class="card-subtitle">@ BEM FASILKOM UI</p>
-                                <hr class="card-divider">
-                                <ul class="card-list">
-                                    <li>Conceptualized the 7D mini-brief to streamline digital marketing efforts and improve overall project management within the bureau.</li>
-                                    <li>Formulated targeted content plans and analyzed key audiences.</li>
-                                </ul>
-                            </div>
-                        </article>
-                        <div class="timeline-container">
-                            <div class="timeline-pill"><time datetime="2026">2026</time> – Recent</div>
-                        </div>
-                    </div>
-
-                    <!-- Kolom 3: DDP0 -->
-                    <div class="experience-column">
-                        <article class="experience-card">
-                            <div class="card-image-wrapper">
-                                <img src="/static/img/20.png" alt="Banner DDP0" class="card-image">
-                            </div>
-                            <div class="card-content">
-                                <h3 class="card-title">Staff of UI/UX</h3>
-                                <p class="card-subtitle">@ DDP0</p>
-                                <hr class="card-divider">
-                                <ul class="card-list">
-                                    <li>Designed intuitive, user-centered interfaces and high-fidelity prototypes using Figma to enhance the digital learning experience for First-year students.</li>
-                                    <li>Collaborated closely with the technical team to translate project requirements into functional design solutions, ensuring accurate and seamless UI/UX implementation.</li>
-                                </ul>
-                            </div>
-                        </article>
-                        <div class="timeline-container">
-                            <div class="timeline-pill"><time datetime="2026">2026</time></div>
-                        </div>
-                    </div>
-
-                    <!-- Kolom 4: BETIS FASILKOM -->
-                    <div class="experience-column">
-                        <article class="experience-card">
-                            <div class="card-image-wrapper">
-                                <img src="/static/img/21.png" alt="Banner BETIS FASILKOM" class="card-image">
-                            </div>
-                            <div class="card-content">
-                                <h3 class="card-title">Staff of UI/UX</h3>
-                                <p class="card-subtitle">@ BETIS FASILKOM</p>
-                                <hr class="card-divider">
-                                <ul class="card-list">
-                                    <li>Designed intuitive, user-centered interfaces and high-fidelity prototypes using Figma to enhance the digital learning experience for high school student.</li>
-                                    <li>Conducted User Testing and validation to iterate on design solutions based on real user feedback and pain points.</li>
-                                </ul>
-                            </div>
-                        </article>
-                        <div class="timeline-container">
-                            <div class="timeline-pill"><time datetime="2026">2026</time></div>
-                        </div>
-                    </div>
-
-                </div> 
+                </div>
+                {% empty %}
+                    <p class="empty-state">Belum ada pengalaman yang ditambahkan.</p>
+                {% endfor %}
+            </div>
             </div>
         </section>
     </main>

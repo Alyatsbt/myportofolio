@@ -1,0 +1,102 @@
+[
+  {
+    "model": "main.project",
+    "pk": 1,
+    "fields": {
+      "title": "FocusBuddy",
+      "subtitle": "AI-Powered Task Decomposition & Executive Function Platform",
+      "description": "A cognitive-friendly productivity platform that helps students start and sustain momentum by deconstructing overwhelming to-do lists into bite-sized tasks, featuring intelligent single-task focus and integrated overwhelm recovery.",
+      "thumbnail": "/static/img/focusbuddyframe.png",
+      "project_url": "https://www.figma.com/proto/cKKGEQickQuizzYbXKL0xx/FocusBuddy?node-id=8%3A228",
+      "created_at": "2026-09-14T00:00:00Z"
+    }
+  },
+  {
+    "model": "main.project",
+    "pk": 2,
+    "fields": {
+      "title": "HunianQita",
+      "subtitle": "Integrated & Verified Student Housing Search Platform",
+      "description": "A centralized accommodation platform that streamlines the rental journey with authenticated listings, smart AI matching, and direct host communication for a reliable finding experience.",
+      "thumbnail": "/static/img/hunianqitaframe.png",
+      "project_url": "https://www.figma.com",
+      "created_at": "2026-09-14T00:00:00Z"
+    }
+  },
+  {
+    "model": "main.project",
+    "pk": 3,
+    "fields": {
+      "title": "PacilSync",
+      "subtitle": "Integrated Academic & Student Life Information Portal",
+      "description": "A centralized web portal designed to eliminate fragmented campus announcements by aggregating academic schedules, student events, and career opportunities into a unified dashboard, complete with one-click Google Calendar syncing, bookmarking, and deadline alerts.",
+      "thumbnail": "/static/img/pacilsyncframe.png",
+      "project_url": "https://www.figma.com/proto/CHfeRU2aKexzgnEoZSVDBg/bismit-FP?node-id=105%3A11",
+      "created_at": "2026-09-14T00:00:00Z"
+    }
+  },
+  {
+    "model": "main.project",
+    "pk": 4,
+    "fields": {
+      "title": "Compfest",
+      "subtitle": "Brand Identity & Multi-Channel Feed Design",
+      "description": "Directed visual asset creation and social media feed curation as VPIC of Visual Design. Developed modular design systems and 3D graphic elements, managing inter-divisional creative pipelines to elevate the brand's digital presence and audience engagement.",
+      "thumbnail": "/static/img/compfestframe.png",
+      "project_url": "https://www.instagram.com/compfest",
+      "created_at": "2026-09-14T00:00:00Z"
+    }
+  },
+  {
+    "model": "main.experience",
+    "pk": "c1a2e344-77bb-4e94-9118-29efd6f03001",
+    "fields": {
+      "title": "VPIC of Visual Design",
+      "organization": "Compfest",
+      "category": "volunteer",
+      "thumbnail": "/static/img/18.png",
+      "description": "• Leading and managing a dedicated visual design team to ensure high-quality creative output for the largest student-led IT event in Indonesia.\n• Architecting a comprehensive Design System and visual guidelines using Figma to maintain brand consistency across all digital and physical platforms. Responsible for all event visual assets.",
+      "started_at": "2026-01-01T00:00:00Z",
+      "ended_at": null
+    }
+  },
+  {
+    "model": "main.experience",
+    "pk": "c2b3e455-88cc-4f95-a229-30fad7f04002",
+    "fields": {
+      "title": "Digital Marketing & Brand Strategist in Business and Partnership Bureau",
+      "organization": "BEM FASILKOM UI",
+      "category": "volunteer",
+      "thumbnail": "/static/img/19.png",
+      "description": "• Conceptualized the 7D mini-brief to streamline digital marketing efforts and improve overall project management within the bureau.\n• Formulated targeted content plans and analyzed key audiences.",
+      "started_at": "2026-02-01T00:00:00Z",
+      "ended_at": null
+    }
+  },
+  {
+    "model": "main.experience",
+    "pk": "c3c4e566-99dd-5a06-b330-41fae8f05003",
+    "fields": {
+      "title": "Staff of UI/UX",
+      "organization": "DDP0",
+      "category": "part-time",
+      "thumbnail": "/static/img/20.png",
+      "description": "• Designed intuitive, user-centered interfaces and high-fidelity prototypes using Figma to enhance the digital learning experience for First-year students.\n• Collaborated closely with the technical team to translate project requirements into functional design solutions, ensuring accurate and seamless UI/UX implementation.",
+      "started_at": "2026-02-01T00:00:00Z",
+      "ended_at": "2026-05-31T00:00:00Z"
+    }
+  },
+  {
+    "model": "main.experience",
+    "pk": "c4d5e677-00ee-6b17-c441-52faf9f06004",
+    "fields": {
+      "title": "Staff of UI/UX",
+      "organization": "BETIS FASILKOM",
+      "category": "volunteer",
+      "thumbnail": "/static/img/21.png",
+      "description": "• Designed intuitive, user-centered interfaces and high-fidelity prototypes using Figma to enhance the digital learning experience for high school student.\n• Conducted User Testing and validation to iterate on design solutions based on real user feedback and pain points.",
+      "started_at": "2026-01-01T00:00:00Z",
+      "ended_at": "2026-06-30T00:00:00Z"
+    }
+  }
+]

@@ -19,10 +19,17 @@ html {
     --line: #e3d9c9;
     --text-muted: #475256;
     --radius: 20px;
+    --card-gradient: linear-gradient(180deg, #76a1be 0%, #3D6B8C 100%);
+    --card-gradient-hover: linear-gradient(180deg, #36648a 0%, #0D2B42 100%);
 }
 
 body {
-    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--paper);
+    background-image: radial-gradient(circle at 85% 15%, rgba(111, 155, 192, 0.7) 0%, transparent 40%),
+                      radial-gradient(circle at 15% 85%, rgba(111, 155, 192, 0.2) 0%, transparent 50%);
+    background-attachment: fixed;
+
+    font-family: 'Plus Jakarta Sans', sans-serif;
     color: var(--ink);
     background-color: var(--paper);
     line-height: 1.6;
@@ -42,40 +49,49 @@ h1, .brand {
 /* =================================================================
    2. NAVIGATION BAR
    ================================================================ */
-.site-header {
+.floating-nav {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
+    top: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 100;
-    background-color: rgba(250, 245, 240, 0.5);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(12px);
 }
 
-.site-header .container {
+.nav-content {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 1.25rem 1.5rem;
+    gap: 1.5rem;
+    padding: 0.8rem 1.8rem 0.8rem 1.3rem;
+    background-color: rgba(250, 246, 240, 0.5);  
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12),
+                0 2px 6px rgba(0, 0, 0, 0.04);
 }
 
-.brand {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--ink);
-    text-decoration: none;
+.nav-icon {
+    height: 30px;
+    width: auto;
 }
 
-.site-header nav {
+.floating-nav nav {
     display: flex;
     gap: 2rem;
 }
 
-.site-header nav a {
+.floating-nav nav a {
     color: var(--ink);
     text-decoration: none;
-    font-size: 0.95rem;
+    font-size: rem;
+    font-weight: 500;
+    transition: font-weight 0.2s ease;
+}
+
+.floating-nav nav a.active, 
+.floating-nav nav a:hover {
+    font-weight: 700;
 }
 
 
@@ -174,26 +190,14 @@ h1, .brand {
     position: relative;
 }
 
-.photo-block {
-    position: absolute;
-    top: 1.25rem;
-    left: 1.25rem;
-    width: 100%;
-    height: 100%;
-    background-color: var(--accent);
-    border-radius: var(--radius);
-    z-index: 0;
-}
-
 .avatar {
     position: relative;
     z-index: 1;
     display: block;
     width: 100%;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    border-radius: var(--radius);
-    border: none;
+    max-width: 540px;
+    height: auto;
+    margin: 0 auto;
 }
 
 
@@ -250,7 +254,7 @@ h1, .brand {
 
 /* Desain card utama */
 .experience-card {
-    background-color: #4A7A9C; 
+    background: var(--card-gradient); 
     border-radius: var(--radius);
     width: 100%; 
     flex-shrink: 0; 
@@ -263,9 +267,9 @@ h1, .brand {
 
 /* Efek saat card dihover */
 .experience-card:hover {
-    background: #0d3654;
-    background: linear-gradient(0deg, rgba(13, 54, 84, 1) 0%, rgba(74, 122, 156, 1) 100%);
-    transform: translateY(-4px);
+    background: var(--card-gradient-hover);
+    transform: translateY(-8px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
 }
 
 .card-image-wrapper {
@@ -365,25 +369,67 @@ h1, .brand {
 }
 
 @media (max-width: 600px) {
+    .nav-content {
+        gap: 0.8 rem;
+        padding: 0.4rem 1rem 0.4rem 0.75rem;
+    }
+
+    .floating-nav nav {
+        gap: 0.8rem;
+    }
+
+    .floating-nav nav a {
+        font-size: 0.8rem;
+    }
+
+    .vav-icon {
+        height: 22px;
+    }
+
     .hero-grid {
         grid-template-columns: 1fr;
         grid-template-areas:
             "identity"
             "photo"
             "details";
+        gap: 2rem;
     }
 
-    .hero-photo {
-        max-width: 220px;
+    .hero-details {
+        padding: 0.5rem;
+    }
+
+    .hero-identity h1, 
+    .hero-kicker {
+        text-align: center;
+    }
+
+    .photo-container {
+        max-width: 280px; 
+        margin: 0 auto;
+    }
+
+    .avatar {
+        max-width: 280px;
+    }
+
+    .bio {
+        text-align: left;
+        margin: 0 auto 1.5rem;
+    }
+
+    .meta-list {
+        justify-content: space-between;
+        margin-bottom: 2rem;
     }
 
     .social-links {
-        justify-content: flex-start;
+        justify-content: center;
     }
 }
 
 /* =================================================================
-   6. EXPERIENCE PAGE (TUTOR-02)
+   6. EXPERIENCE PAGE (TUGAS-02)
    ================================================================ */
 .experience-section {
     padding: 4rem 0;
@@ -437,4 +483,122 @@ h1, .brand {
     margin-top: 1rem;
     font-size: 0.85rem;
     font-weight: 600;
+}
+
+/* =================================================================
+   7. PROJECTS PAGE (TUGAS-03)
+   ================================================================ */
+.projects-section {
+    padding-top: 7rem; 
+    padding-bottom: 5rem;
+}
+
+.projects-page-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 2.5rem;
+    color: var(--ink);
+}
+
+/* Grid 2 Kolom untuk Desktop */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+/* Desain Card Project */
+.project-card {
+    background: var(--card-gradient);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efek saat Card di-hover */
+.project-card:hover,
+.project-card:focus-within {
+    background: var(--card-gradient-hover);
+    transform: translateY(-8px);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.2);
+}
+
+.project-image-wrapper {
+    width: 100%;
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.project-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+.project-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.project-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+}
+
+.project-subtitle {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.35;
+    margin-bottom: 1rem;
+    opacity: 0.95;
+}
+
+.project-description {
+    font-size: 0.85rem;
+    line-height: 1.55;
+    opacity: 0.85;
+    margin-bottom: 1.75rem;
+    flex-grow: 1;
+}
+
+/* Tombol Open Project */
+.btn-project {
+    display: inline-block;
+    width: fit-content;
+    padding: 0.6rem 1.4rem;
+    border-radius: 50px;
+    background-color: #000000;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-project:hover,
+.btn-project:active {
+    background-color: #CDE4F7;
+    color: #0D2B42;
+}
+
+/* Responsive Mobile untuk Halaman Projects */
+@media (max-width: 768px) {
+    .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .projects-page-title {
+        font-size: 2.2rem;
+        text-align: left;
+    }
 }
