@@ -27,6 +27,7 @@ class Experience(models.Model):
         return self.ended_at is None
 
 class Project(models.Model):
+    id = models.BigAutoField(primary_key=True)
     title = models.CharField(max_length=255)
     subtitle = models.CharField(max_length=255)
     description = models.TextField()
