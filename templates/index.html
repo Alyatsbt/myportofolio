@@ -8,7 +8,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     
     <!-- Custom Stylesheet -->
     <link rel="stylesheet" href="/static/css/style.css">
@@ -74,33 +74,24 @@
                     <div class="experience-column">
                         <article class="experience-card">
 
-                        <!-- Banner / Thumbnail Gambar -->
                             <div class="card-image-wrapper">
                                 {% if experience.thumbnail %}
                                     <img src="{{ experience.thumbnail }}" alt="Banner {{ experience.title }}" class="card-image">
                                 {% else %}
-                                    <!-- Gambar fallback jika thumbnail kosong -->
                                     <img src="/static/img/18.png" alt="Default Banner" class="card-image">
                                 {% endif %}
                             </div>
 
-                        <!-- Konten Kartu -->
                             <div class="card-content">
                                 <h3 class="card-title">{{ experience.title }}</h3>
-                                
-                                <!-- Mengambil kategori atau organisasi -->
                                 <p class="card-subtitle">@ {{ experience.organization }}</p>
-                                
                                 <hr class="card-divider">
-                                
-                                <!-- Deskripsi Pengalaman -->
                                 <p class="card-description">
                                     {{ experience.description }}
                                 </p>
                             </div>
                         </article>
 
-                    <!-- Timeline Pill Dinamis -->
                     <div class="timeline-container">
                         <div class="timeline-pill">
                             <time>{{ experience.started_at|date:"Y" }}</time>
@@ -113,7 +104,6 @@
                     </div>
                 </div>
                 {% empty %}
-                    <!-- Tampil jika database masih kosong -->
                     <p class="empty-state">Belum ada pengalaman yang ditambahkan.</p>
                 {% endfor %}
             </div>

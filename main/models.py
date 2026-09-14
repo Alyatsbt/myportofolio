@@ -25,3 +25,14 @@ class Experience(models.Model):
     @property
     def is_ongoing(self):
         return self.ended_at is None
+
+class Project(models.Model):
+    title = models.CharField(max_length=255)
+    subtitle = models.CharField(max_length=255)
+    description = models.TextField()
+    thumbnail = models.CharField(max_length=255, blank=True, null=True) # path static atau URL
+    project_url = models.URLField(blank=True, null=True) # Link ke prototype Figma
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
