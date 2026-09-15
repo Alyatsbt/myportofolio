@@ -306,6 +306,12 @@ h1, .brand {
     margin-bottom: 16px;
 }
 
+.card-description {
+    white-space: pre-line;
+    font-size: 0.95rem;
+    line-height: 1.45;
+}
+
 .card-list {
     padding-left: 18px; 
     font-size: 1rem;
