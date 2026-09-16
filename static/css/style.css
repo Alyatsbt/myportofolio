@@ -608,3 +608,231 @@ h1, .brand {
         text-align: left;
     }
 }
+
+/* =================================================================
+   8. PROJECT FORM (tutor-03)
+   ================================================================ */
+
+   .project-form {
+    width: 100%;
+    max-width: 100%;
+    margin-top: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-weight: 700;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.7rem;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    font: inherit;
+    transition:
+        border-color 0.2s ease,
+        outline-color 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: 2px solid var(--accent);
+    border-color: var(--accent);
+}
+
+.form-error {
+    color: #b42318;
+    font-size: 0.85rem;
+    margin-top: 0.35rem;
+}
+
+.button {
+    display: inline-block;
+    height: fit-content;
+    border: 0;
+    border-radius: var(--radius);
+    padding: 0.65rem 1rem;
+    background: var(--accent);
+    color: white;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.button-secondary {
+    background: var(--ink);
+}
+
+/* =================================================================
+   9. TAMBAHAN TUTORIAL 3 (HEADER, SEARCH, MODAL)
+   ================================================================= */
+
+/* --- Layout Header & Search --- */
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Penyesuaian agar flex-nya rata tengah untuk tombol Tambah */
+.btn-add {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.project-search {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 2.5rem; /* Memberi jarak ke grid card */
+}
+
+.project-search_input {
+    width: 100%;
+    min-width: 0;
+    padding: 0.7rem 1.2rem;
+    border: 1px solid #ccc;
+    border-radius: 50px; /* Disesuaikan dengan btn-project agar senada */
+    background: #fff;
+    font: inherit;
+    transition: all 0.2s ease;
+}
+
+.project-search_input:focus {
+    outline: none;
+    border-color: #000000;
+    box-shadow: 0 0 0 3px rgba(0,0,0,0.1);
+}
+
+/* Penjajaran tombol di dalam card */
+.project-action {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap; /* Jika layar kecil, tombol akan turun ke bawah dengan rapi */
+    gap: 10px;
+    margin-top: 1rem;
+}
+
+/* --- Styling Khusus Tombol Delete di dalam Card --- */
+/* Agar tidak menabrak warna background card */
+.btn-delete {
+    background-color: transparent;
+    color: #ffb4b4; /* Warna merah muda terang agar kontras di dark-card */
+    border: 1px solid #ffb4b4;
+}
+
+.btn-delete:hover,
+.btn-delete:active {
+    background-color: #ffb4b4;
+    color: #000;
+}
+
+/* --- Styling CSS Pop-Up Modal Delete (Bawaan Tutorial) --- */
+.project-delete-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 1rem;
+    border: 0;
+    background: transparent;
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+}
+
+.project-delete-modal:popover-open {
+    display: flex;
+}
+
+.project-delete-modal_backdrop {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    padding: 0;
+    background: rgba(0, 0, 0, 0.7);
+    cursor: default;
+}
+
+.project-delete-modal_content {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 480px);
+    padding: 2rem;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.3);
+    color: #333; /* Memastikan teks di modal berwarna gelap */
+}
+
+.project-delete-modal_content h2 {
+    margin: 0 0 0.75rem;
+    font-size: 1.5rem;
+    color: #111;
+}
+
+.project-delete-modal_close {
+    position: absolute;
+    top: 1rem;
+    right: 1.25rem;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    font-size: 1.8rem;
+    line-height: 1;
+    cursor: pointer;
+    color: #777;
+}
+
+.project-delete-modal_actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+/* Tombol Aksi di Dalam Modal */
+.button-danger {
+    background: #e11d48;
+    color: white;
+    border: none;
+    padding: 0.65rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.button-danger:hover {
+    background: #be123c;
+}
+
+.button-secondary {
+    background: #f1f5f9;
+    color: #333;
+    border: none;
+    padding: 0.65rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.button-secondary:hover {
+    background: #e2e8f0;
+}
