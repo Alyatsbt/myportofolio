@@ -4,11 +4,12 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
 from main.models import Experience, Project
-from main.forms import ProjectForm
+from main.forms import ProjectForm, ExperienceForm
 
 
 # mengirim data ke index.html
 def show_main(request):
+    experiences = Experience.objects.all().order_by('-started_at')
     context = {
         "nameCard": "AlyaTsbt",
         "name": "Alya Tsabita Imani",
@@ -24,6 +25,7 @@ def show_main(request):
 
 # mengirim data ke experience.html
 def show_experience(request):
+    experiences = Experience.objects.all().order_by('-started_at')
     context = {
         "nameCard": "AlyaTsbt",
         "name": "Alya Tsabita Imani",
@@ -84,3 +86,38 @@ def get_projects_json(request):
 
     projects_json = serializers.serialize("json", projects)
     return HttpResponse(projects_json, content_type="application/json")
+
+# ================= FUNGSI BARU TUGAS 3 =================
+
+def update_project(request, id):
+    project = get_object_or_404(Project, pk=id)
+    return redirect(request.POST or None, instance=project)
+
+def create_experience(request):
+    form = ExperienceForm(request.POST or None)
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        return redirect("main:show_experience")
+    return render(request, "experience_form.html", {"form": form})
+
+def update_experience(request, id):
+    # Ambil data experience yang mau diedit berdasarkan ID
+    experience = get_object_or_404(Experience, pk=id)
+    # Masukkan data lama ke dalam form
+    form = ExperienceForm(request.POST or None, instance=experience)
+    
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        return redirect("main:show_experience")
+        
+    return render(request, "experience_form.html", {"form": form})
+
+def delete_experience(request, id):
+    experience = get_object_or_404(Experience, pk=id)
+    if request.method == "POST":
+        experience.delete()
+    return redirect("main:show_experience")
+
+def get_experiences_json(request):
+    experiences = Experience.objects.all()
+    return HttpResponse(serializers.serialize("json", experiences), content_type="application/json")

@@ -27,8 +27,8 @@ html {
     /* --- Projects & Cards --- */
     --card-gradient: linear-gradient(180deg, #76a1be 0%, #3D6B8C 100%);
     --card-gradient-hover: linear-gradient(180deg, #36648a 0%, #0D2B42 100%);
-    --btn-card-h-f: #083456; /* Warna text saat hover btn-project */
-    --btn-card-h: #BAE1FF;   /* Warna bg saat hover btn-project */
+    --btn-card-h-f: #083456; /* Warna text saat hover btn-card */
+    --btn-card-h: #BAE1FF;   /* Warna bg saat hover btn-card */
 
     /* --- Semantic Colors (Danger/Delete) --- */
     --danger: #e11d48;
@@ -527,7 +527,7 @@ h1, .brand {
 }
 
 /* Tombol di Dalam Card (Open Project, Update) */
-.btn-project {
+.btn-card {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -549,8 +549,8 @@ h1, .brand {
     transition: all 0.2s ease;
 }
 
-.btn-project:hover,
-.btn-project:active {
+.btn-card:hover,
+.btn-card:active {
     background-color: var(--btn-card-h);
     color: var(--btn-card-h-f); /* Typo variabel diperbaiki */
 }
