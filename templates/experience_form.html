@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main style="padding-top: 7rem; padding-bottom: 5rem;">
+    <div class="container" style="max-width: 600px;">
+        
+        <h1 class="projects-page-title" style="margin-bottom: 0.5rem;">
+            {% if form.instance.pk %}
+                Update Experience
+            {% else %}
+                Tambah Experience
+            {% endif %}
+        </h1>
+        <p class="section-kicker" style="margin-bottom: 2rem;">Isi detail pengalamanmu di bawah ini.</p>
+
+        <form method="POST" class="project-form">
+            {% csrf_token %} <!-- note personal: WAJIB ada di Django tiap kali bikin form POST -->
+            
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+
+                    {% if field.errors %}
+                        <div class="form-error">
+                            {% for error in field.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <div style="margin-top: 2rem; display: flex; gap: 12px;">
+                <a href="{% url 'main:show_experience' %}" class="button button-secondary" style="text-decoration: none;">Batal</a>
+                <button type="submit" class="button">Simpan Data</button>
+            </div>
+        </form>
+    </div>
+</main>
+{% endblock %}

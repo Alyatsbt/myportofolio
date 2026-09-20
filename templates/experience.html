@@ -4,17 +4,28 @@
 <main>
     <section class="experience-section" id="experience">
         <div class="container">
-            <p class="section-kicker">Perjalanan saya sejauh ini</p>
-            
-            <div class="project-header">
-                <h1>Experience</h1>
-                <a href="{% url 'main:create_experience' %}" class="btn-primary btn-add">
-                    <span aria-hidden="true" style="font-size:1.2rem;">+</span> Tambah Experience
-                </a>
-            </div>
-            <!-- ================================================= -->
+    
+    <!-- ====== HEADER: Judul, Sub-judul, dan Tombol ====== -->
+    <div class="project-header" style="align-items: center;">
+        
+        <div class="header-titles" style="display: flex; flex-direction: column;">
+            <h1 class="projects-page-title" style="margin-bottom: 0.2rem;">Experience</h1>
+            <p class="section-kicker" style="margin: 0;">Perjalanan saya sejauh ini (dan terus berlanjut)</p>
+        </div>
 
-            <div class="experience-grid">
+        <a href="{% url 'main:create_experience' %}" class="btn-primary btn-add">
+            <span aria-hidden="true" style="font-size:1.2rem;">+</span> Tambah Experience
+        </a>
+    </div>
+
+    <form method="GET" class="project-search">
+        <input type="text" name="q" placeholder="Cari berdasarkan nama peran atau pengalaman..." class="project-search_input">
+        <button type="submit" class="btn-primary">Cari</button>
+    </form>
+
+    <!-- ================================================= -->
+    
+    <div class="experience-grid">
                 {% for experience in experience_list %}
                     <article class="experience-card">
                         <span class="experience-category">
