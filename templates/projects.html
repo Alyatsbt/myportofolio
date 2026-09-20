@@ -13,14 +13,14 @@
             <div class="project-header">
                 <h1 class="projects-page-title">Projects</h1>
                 <!-- Menggunakan class .btn-project agar gayanya seragam -->
-                <a href="{% url 'main:create_project' %}" class="btn-project btn-add">
+                <a href="{% url 'main:create_project' %}" class="btn-primary btn-add">
                     <span aria-hidden="true" style="font-size:1.2rem;">+</span> Tambah Proyek
                 </a>
             </div>
 
             <form method="get" action="{% url 'main:show_projects' %}" class="project-search">
                 <input type="search" name="title" value="{{ title_query }}" placeholder="Cari berdasarkan nama proyek..." class="project-search_input" aria-label="Cari berdasarkan nama proyek">
-                <button type="submit" class="btn-project">Cari</button>
+                <button type="submit" class="btn-primary">Cari</button>
             </form>
             <!-- =================================================== -->
 
@@ -42,19 +42,20 @@
                         <p class="project-description">{{ project.description }}</p>
 
                         <div class="project-action">
-                            {% if project.project_url %}
-                                <a href="{{ project.project_url }}" target="_blank" rel="noopener noreferrer" class="btn-project">
-                                    Open Project
-                                </a>
-                            {% else %}
-                                <span class="btn-project disabled">Coming Soon</span>
-                            {% endif %}
-
-                            <!-- ====== TAMBAHAN TUTORIAL 3: Modal Delete ====== -->
-                            <!-- Pastikan modalnya dipanggil di sini -->
-                            {% include "components/project_delete_modal.html" with project=project %}
+                            <div class= "action-row1">
+                                {% if project.project_url %}
+                                    <a href="{{ project.project_url }}" target="_blank" rel="noopener noreferrer" class="btn-project">
+                                        Open Project
+                                    </a>
+                                {% else %}
+                                    <span class="btn-project disabled">Coming Soon</span>
+                                {% endif %}
+                            </div>
+                            <div class="action-row2">
+                                <a href="#" class="btn-project btn-update">Update</a>
+                                {% include "components/project_delete_modal.html" with project=project %}
+                            </div>
                         </div>
-                    </div>
                 </article>
                 {% empty %}
                     {% if title_query %}

@@ -16,6 +16,8 @@ html {
     --paper: #faf6f0;
     --accent: #6F9BC0;
     --accent-dark: #0A5593;
+    --btn-card-h-f: #083456;
+    --btn-card-h: #BAE1FF;
     --line: #e3d9c9;
     --text-muted: #475256;
     --radius: 20px;
@@ -61,7 +63,7 @@ h1, .brand {
     display: flex;
     align-items: center;
     gap: 1.5rem;
-    padding: 0.8rem 1.8rem 0.8rem 1.3rem;
+    padding: 0.5rem 1.5rem 0.5rem 1.3rem;
     background-color: rgba(250, 246, 240, 0.5);  
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -71,9 +73,16 @@ h1, .brand {
                 0 2px 6px rgba(0, 0, 0, 0.04);
 }
 
-.nav-icon {
+.cat-logo {
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
     height: 30px;
     width: auto;
+}
+
+.cat-logo:hover,
+.cat-logo:active {
+    content: url('/static/img/Vector.png'); 
 }
 
 .floating-nav nav {
@@ -576,10 +585,10 @@ h1, .brand {
     flex-grow: 1;
 }
 
-/* Tombol Open Project */
-.btn-project {
-    display: inline-block;
-    width: fit-content;
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 0.6rem 1.4rem;
     border-radius: 50px;
     background-color: #000000;
@@ -587,13 +596,41 @@ h1, .brand {
     text-decoration: none;
     font-size: 0.9rem;
     font-weight: 600;
+    border: none;        /* Bebas border */
+    outline: none;
+    cursor: pointer;
     transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--accent);
+}
+
+/* Tombol Open Project */
+.btn-project {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    height: 40px;
+
+    width: fit-content;
+    padding: 0rem 1.2rem;
+    border-radius: 50px;
+    background-color: #000000;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+    border: none;
 }
 
 .btn-project:hover,
 .btn-project:active {
-    background-color: #CDE4F7;
-    color: #0D2B42;
+    background-color: var(--btn-card-h);
+    color: var(--btn);
 }
 
 /* Responsive Mobile untuk Halaman Projects */
@@ -718,14 +755,20 @@ h1, .brand {
 /* Penjajaran tombol di dalam card */
 .project-action {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     flex-wrap: wrap; /* Jika layar kecil, tombol akan turun ke bawah dengan rapi */
-    gap: 10px;
-    margin-top: 1rem;
+    gap: 12px;
+    margin-top: 1.5rem;
 }
 
-/* --- Styling Khusus Tombol Delete di dalam Card --- */
-/* Agar tidak menabrak warna background card */
+.action-row2 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+/* =======================================================
+   1. TOMBOL DELETE (Tombol trigger di dalam Card)
+   ======================================================= */
 .btn-delete {
     background-color: transparent;
     color: #ffb4b4; /* Warna merah muda terang agar kontras di dark-card */
@@ -738,7 +781,9 @@ h1, .brand {
     color: #000;
 }
 
-/* --- Styling CSS Pop-Up Modal Delete (Bawaan Tutorial) --- */
+/* =======================================================
+   2. MODAL POP-UP KONFIRMASI
+   ======================================================= */
 .project-delete-modal {
     display: none;
     position: fixed;
@@ -760,7 +805,7 @@ h1, .brand {
     display: flex;
 }
 
-.project-delete-modal_backdrop {
+.project-delete-modal__backdrop {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -771,7 +816,7 @@ h1, .brand {
     cursor: default;
 }
 
-.project-delete-modal_content {
+.project-delete-modal__content {
     position: relative;
     z-index: 1;
     width: min(100%, 480px);
@@ -779,16 +824,16 @@ h1, .brand {
     background: #fff;
     border-radius: 16px;
     box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.3);
-    color: #333; /* Memastikan teks di modal berwarna gelap */
+    color: #333;
 }
 
-.project-delete-modal_content h2 {
+.project-delete-modal__content h2 {
     margin: 0 0 0.75rem;
     font-size: 1.5rem;
     color: #111;
 }
 
-.project-delete-modal_close {
+.project-delete-modal__close {
     position: absolute;
     top: 1rem;
     right: 1.25rem;
@@ -801,14 +846,16 @@ h1, .brand {
     color: #777;
 }
 
-.project-delete-modal_actions {
+.project-delete-modal__actions {
     display: flex;
     justify-content: flex-end;
     gap: 0.75rem;
     margin-top: 1.5rem;
 }
 
-/* Tombol Aksi di Dalam Modal */
+/* =======================================================
+   3. TOMBOL AKSI DI DALAM MODAL
+   ======================================================= */
 .button-danger {
     background: #e11d48;
     color: white;

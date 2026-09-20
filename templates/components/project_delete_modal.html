@@ -1,12 +1,10 @@
-<p class="experience-status">
-    <button type="button"
-            class="btn-project btn-delete" 
-            popovertarget="delete-project-{{ project.id }}"
-            aria-label="Hapus {{ project.title }}"
-            title="Hapus proyek">
-        Hapus Proyek
-    </button>
-</p>
+<button type="button"
+        class="btn-project btn-delete" 
+        popovertarget="delete-project-{{ project.id }}"
+        aria-label="Hapus {{ project.title }}"
+        title="Hapus proyek">
+    Delete
+</button>
 <div id="delete-project-{{ project.id }}"
      class="project-delete-modal"
      popover="auto"
