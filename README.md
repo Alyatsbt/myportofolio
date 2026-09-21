@@ -142,3 +142,48 @@ penggunaan:
 - membantu pemahaman mengenai migrations di terminal dan mengapa harus melakukan hal tersebut
 
 AI sangat membantu mempercepat proses pencarian solusi saat menghadapi kendala teknis dan debugging, terutama terkait error di lingkungan server PWS dan unit test. Namun, beberapa saran awal tidak langsung bisa dipakai begitu saja. Misalnya saat AI menyarankan eksekusi kode oneliner di terminal PWS yang sempat error karena karakter '&' pada URL Figma, sehingga akhirnya dialihkan menggunakan JSON. 
+
+## Tugas 3
+
+### Pertanyaan Reflektif
+1. ModelForm digunakan karna lebih praktis dan efisien daripada buat tag <input> HTML satu satu dan mengaur validasinya. ModelForm otomatis membaca struktur database dan menggenerate form, sedangkan {% csrf_token %} berguna sebagai token pengaman untuk mencegah serangan Cross-Site Request Forgery, jadi server bisa memastikan kalau data yang di submit itu benar benar asli dari web kita sendiri.
+
+2. JSON lebih disukai di pengembangan web modern karena bentuknya jauh lebih ringkas. XML lebih boros karakter karena harus pakai banyak tag pembuka dan penutup, sedangkan JSON menggunakan format key-value yang bikin ukuran datanya lebih ringan. Karena ringan, mesin bisa membaca dan memproses (parsing) datanya dengan jauh lebih cepat, JSON juga integrasi dengan Javascript.
+
+3. Alurnya dimulai saat ada request ke URL API, lalu fungsi view akan merespons dengan menarik data portofolio dari database (misalnya pakai Project.objects.all()). namun wujud asli data dari database Django ini kan masih berupa Objek Python, sementara sistem seperti browser, frontend, atau aplikasi mobile tidak mengerti apa itu Objek Python.  Serialisasi bertugas menerjemahkan Objek Python tersebut menjadi format teks JSON yang universal. Setelah wujudnya berubah jadi JSON, barulah data tersebut dibungkus dengan HttpResponse dan dikembalikan ke browser atau client.
+
+
+### Progress Mingguan
+**full commit history bisa dilihat di branch tugas-3 dan main**
+- 16 sept 2026 :
+1. menyelesaikan implementasi Tutorial 3 yang berfokus pada Form dan Data Delivery 
+- 20 sept 2026 :
+1. melakukan penyesuaian dan peningkatan desain UI pada halaman projects
+2. melakukan refaktor pada CSS dengan menerapkan variabel khusus untuk styling yang lebih rapi dan terstruktur
+3. mengimplementasi fitur CRUD pada page project
+- 21 sept 2026 :
+1. memisahkan page experience menjadi entitas mandiri dan mengimplementasikan fitur CRUD (Create, Read, Update, Delete)
+2. menambahkan template form serta antarmuka modal konfirmasi untuk fitur delete data experience
+3. melakukan refaktor styling dengan memindahkan format inline ke CSS eksternal serta membereskan bug pada layout UI
+4. memperbaiki bug sistem termasuk duplikasi data saat update project, error validasi CSRF, dan memperbaiki layout timeline yang patah akibat data tanggal yang kosong
+
+## AI Disclosure
+menjelaskan penggunaan AI untuk membantu pengerjaan tugas 3 dan memperdalam pemahaman.
+
+tools : gemini
+
+link : https://gemini.google.com/share/d/16um0MLK6j3H-H0h3gv77geut81WaJ77Q?usp=sharing 
+
+penggunaan:
+
+- refactor file CSS sehingga struktur dam variable lebih rapi
+
+- membantu mencari tahu penyebab error migrasi database (FieldError) yang ternyata disebabkan oleh konflik nama antara field is_ongoing dan fungsi @property di models.py
+
+- membantu mengatasi bug duplikasi data dengan mengevaluasi dan menghapus atribut action pada projects_form.html
+
+- membantu menyelesaikan error Forbidden (403) CSRF verification failed dengan menyisipkan kembali {% csrf_token %} beserta penutup tag form yang sempat hilang
+
+- membantu troubleshooting error NoReverseMatch yang terjadi karena typo pada pemanggilan nama URL di fungsi redirect views.py
+
+AI sangat membantu mempercepat siklus debugging yang berlapis, terutama ketika satu error beruntun memicu error lainnya dari sisi database, routing, hingga tampilan UI. Bantuan AI sangat efektif untuk menemukan typo kecil yang sering kali sulit disadari jika hanya dibaca sekilas (seperti konflik nama variabel atau tag HTML yang tidak tertutup). Namun, proses ini juga menunjukkan bahwa saran perbaikan dari AI harus dibaca teliti, karena sering kali letak error-nya ternyata murni dari human error di kode yang saya tulis sendiri.
