@@ -94,7 +94,7 @@ def update_project(request, project_id):
     form = ProjectForm(request.POST or None, instance=project)
     if request.method == "POST" and form.is_valid():
         form.save()
-        return redirect("main:show_project")
+        return redirect("main:show_projects")
     context = {'form': form}
     return render(request, "projects_form.html", context)
 
@@ -114,7 +114,6 @@ def update_experience(request, id):
     if request.method == "POST" and form.is_valid():
         form.save()
         return redirect("main:show_experience")
-        
     return render(request, "experience_form.html", {"form": form})
 
 def delete_experience(request, id):

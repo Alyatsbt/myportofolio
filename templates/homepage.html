@@ -72,11 +72,15 @@
 
                 <div class="timeline-container">
                     <div class="timeline-pill">
-                        <time>{{ experience.started_at|date:"Y" }}</time>
-                        {% if experience.is_ongoing %}
-                            – Recent
-                        {% elif experience.ended_at and experience.started_at|date:"Y" != experience.ended_at|date:"Y" %}
-                            – {{ experience.ended_at|date:"Y" }}
+                        {% if experience.started_at %}
+                            <time>{{ experience.started_at|date:"Y" }}</time>
+                            {% if experience.is_ongoing %}
+                                – Recent
+                            {% elif experience.ended_at and experience.started_at|date:"Y" != experience.ended_at|date:"Y" %}
+                                – {{ experience.ended_at|date:"Y" }}
+                            {% endif %}
+                        {% else %}
+                            <time>2026</time> – Recent
                         {% endif %}
                     </div>
                 </div>
