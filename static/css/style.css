@@ -370,7 +370,7 @@ h1, .brand {
 }
 
 /* =================================================================
-   5. PROJECTS PAGE
+   5. PROJECTS & EXPERIENCE PAGE
    ================================================================ */
 .projects-section {
     padding-top: 7rem; 
@@ -390,6 +390,24 @@ h1, .brand {
     align-items: center;
     gap: 1rem;
     margin-bottom: 1.5rem;
+}
+
+/* --- TAMBAHAN BARU: Grup Teks Header --- */
+.header-titles {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Menimpa margin-bottom 2.5rem bawaan agar judul rapat dengan teks di bawahnya */
+.header-titles .projects-page-title {
+    margin-bottom: 0.2rem;
+}
+
+/* Mengatur ukuran dan warna sub-judul */
+.header-titles .section-kicker {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-muted);
 }
 
 .project-search {

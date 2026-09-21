@@ -11,13 +11,16 @@
             
             <!-- ====== TAMBAHAN TUTORIAL 3: Header & Search ====== -->
             <div class="project-header">
-                <h1 class="projects-page-title">Projects</h1>
-                <!-- Menggunakan class .btn-card agar gayanya seragam -->
-                <a href="{% url 'main:create_project' %}" class="btn-primary btn-add">
-                    <span aria-hidden="true" style="font-size:1.2rem;">+</span> Tambah Proyek
-                </a>
+                <div  class="header-titles">
+                    <h1 class="projects-page-title">Projects</h1>
+                    <p class="section-kicker" style="margin: 0;">A showcase of my digital solutions</p>
+                </div>
+                    <!-- Menggunakan class .btn-card agar gayanya seragam -->
+                    <a href="{% url 'main:create_project' %}" class="btn-primary btn-add">
+                        <span aria-hidden="true" style="font-size:1.2rem;">+</span> Tambah Proyek
+                    </a>
             </div>
-
+            
             <form method="get" action="{% url 'main:show_projects' %}" class="project-search">
                 <input type="search" name="title" value="{{ title_query }}" placeholder="Cari berdasarkan nama proyek..." class="project-search_input" aria-label="Cari berdasarkan nama proyek">
                 <button type="submit" class="btn-primary">Cari</button>
@@ -32,7 +35,7 @@
                         {% if project.thumbnail %}
                             <img src="{{ project.thumbnail }}" alt="Banner {{ project.title }}" class="project-image">
                         {% else %}
-                            <img src="/static/img/default-project.png" alt="Default Project" class="project-image">
+                            <img src="/static/img/photodefault.png" alt="Default Project" class="project-image">
                         {% endif %}
                     </div>
 
@@ -52,7 +55,8 @@
                                 {% endif %}
                             </div>
                             <div class="action-row2">
-                                <a href="#" class="btn-card btn-update">Update</a>
+                                <a href="{% url 'main:update_project' project.id %}" class="btn-card">Update</a>
+                                <button type="button" class="btn-card btn-delete" popovertarget="delete-project-{{ project.id }}">Delete</button>
                                 {% include "components/project_delete_modal.html" with project=project %}
                             </div>
                         </div>

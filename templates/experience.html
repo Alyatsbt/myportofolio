@@ -2,62 +2,83 @@
 
 {% block content %}
 <main>
-    <section class="experience-section" id="experience">
+    <!-- Meminjam class projects-section agar padding atas/bawah otomatis rapi -->
+    <section class="projects-section" id="experience">
         <div class="container">
-    
-    <!-- ====== HEADER: Judul, Sub-judul, dan Tombol ====== -->
-    <div class="project-header" style="align-items: center;">
-        
-        <div class="header-titles" style="display: flex; flex-direction: column;">
-            <h1 class="projects-page-title" style="margin-bottom: 0.2rem;">Experience</h1>
-            <p class="section-kicker" style="margin: 0;">Perjalanan saya sejauh ini (dan terus berlanjut)</p>
-        </div>
+            
+            <!-- ====== HEADER ====== -->
+            <div class="project-header">
+                <div class="header-titles">
+                    <h1 class="projects-page-title">Experience</h1>
+                    <p class="section-kicker" >A timeline of my journey (to be continued!)</p>
+                </div>
 
-        <a href="{% url 'main:create_experience' %}" class="btn-primary btn-add">
-            <span aria-hidden="true" style="font-size:1.2rem;">+</span> Tambah Experience
-        </a>
-    </div>
+                    <a href="{% url 'main:create_experience' %}" class="btn-primary btn-add">
+                        <span aria-hidden="true" style="font-size:1.2rem;">+</span> Tambah Experience
+                    </a>
+                
+            </div>
 
-    <form method="GET" class="project-search">
-        <input type="text" name="q" placeholder="Cari berdasarkan nama peran atau pengalaman..." class="project-search_input">
-        <button type="submit" class="btn-primary">Cari</button>
-    </form>
+            <!-- ====== SEARCH BAR ====== -->
+            <form method="get" action="{% url 'main:show_experience' %}" class="project-search">
+                <input type="search" name="q" placeholder="Cari berdasarkan nama peran atau pengalaman..." class="project-search_input">
+                <button type="submit" class="btn-primary">Cari</button>
+            </form>
 
-    <!-- ================================================= -->
-    
-    <div class="experience-grid">
+            <!-- ====== GRID 2 KOLOM ====== -->
+            <!-- Class ini otomatis membuat layout kotak-kotak bersebelahan -->
+            <div class="projects-grid">
                 {% for experience in experience_list %}
-                    <article class="experience-card">
-                        <span class="experience-category">
-                            {{ experience.get_category_display }}
-                        </span>
-                        <h2>{{ experience.title }}</h2>
-                        <p class="experience-description">{{ experience.description }}</p>
+                    <article class="project-card">
+                        
+                        <div class="project-image-wrapper">
+                            {% if experience.thumbnail %}
+                                <img src="{{ experience.thumbnail }}" alt="Banner {{ experience.title }}" class="project-image">
+                            {% else %}
+                                <img src="/static/img/photodefault.png" alt="Default Banner" class="project-image">
+                            {% endif %}
+                        </div>
 
-                        {% if experience.is_ongoing %}
-                            <p class="experience-status">Sedang berlangsung</p>
-                        {% else %}
-                            <p class="experience-status">Selesai</p>
-                        {% endif %}
+                        <div class="project-body">
+                            <h2 class="project-title">{{ experience.title }}</h2>
+                            <p class="project-subtitle">@ {{ experience.organization }}</p>
+                            
+                            <div class="project-description">
+                                <ul style="padding-left: 1.2rem; margin-bottom: 1rem;">
+                                    {% for point in experience.description.splitlines %}
+                                        {% if point %}
+                                            <li>{{ point|cut:"•" }}</li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
 
-                        <div class="project-action" style="margin-top: 1.5rem;">
-                            <div class="action-row2">
-                                <!-- Tombol Update -->
-                                <a href="{% url 'main:update_experience' experience.id %}" class="btn-card btn-update">Update</a>
-                                
-                                <!-- Modal Delete untuk Experience -->
-                                {% include "components/experience_delete_modal.html" with experience=experience %}
+                            <!-- Timeline Pill menggunakan styling minimalis bawaan btn-card -->
+                            <div style="margin-bottom: 1rem;">
+                                <span class="btn-card disabled" style="opacity: 0.8;">
+                                    {% if experience.started_at %}
+                                        {{ experience.started_at|date:"Y" }} - {% if experience.is_ongoing %}recent{% else %}{{ experience.ended_at|date:"Y" }}{% endif %}
+                                    {% else %}
+                                        2026 - recent
+                                    {% endif %}
+                                </span>
+                            </div>
+
+                            <div class="project-action">
+                                <div class="action-row2">
+                                    <a href="{% url 'main:update_experience' experience.id %}" class="btn-card">Update</a>
+                                    <button type="button" class="btn-card btn-delete" popovertarget="delete-experience-{{ experience.id }}">Delete</button>
+                                    {% include "components/experience_delete_modal.html" with experience=experience %}
+                                </div>
                             </div>
                         </div>
-                        <!-- ================================================= -->
-                        
+
                     </article>
                 {% empty %}
-                    <p class="empty-state">
-                        Belum ada pengalaman yang ditambahkan.
-                    </p>
+                    <p class="empty-state">Belum ada pengalaman yang ditambahkan.</p>
                 {% endfor %}
             </div>
+            
         </div>
     </section>
 </main>

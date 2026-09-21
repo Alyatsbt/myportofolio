@@ -7,7 +7,7 @@ from main.models import Experience, Project
 from main.forms import ProjectForm, ExperienceForm
 
 
-# mengirim data ke index.html
+# mengirim data ke homepage.html
 def show_main(request):
     experiences = Experience.objects.all().order_by('-started_at')
     context = {
@@ -21,7 +21,7 @@ def show_main(request):
         ),
         "experience_list": Experience.objects.all(),
     }
-    return render(request, "index.html", context)
+    return render(request, "homepage.html", context)
 
 # mengirim data ke experience.html
 def show_experience(request):
@@ -89,9 +89,14 @@ def get_projects_json(request):
 
 # ================= FUNGSI BARU TUGAS 3 =================
 
-def update_project(request, id):
-    project = get_object_or_404(Project, pk=id)
-    return redirect(request.POST or None, instance=project)
+def update_project(request, project_id):
+    project = get_object_or_404(Project, pk=project_id)
+    form = ProjectForm(request.POST or None, instance=project)
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        return redirect("main:show_project")
+    context = {'form': form}
+    return render(request, "projects_form.html", context)
 
 def create_experience(request):
     form = ExperienceForm(request.POST or None)
