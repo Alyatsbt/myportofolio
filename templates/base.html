@@ -1,0 +1,48 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="{% static 'img/icon.png' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ name }} - Portfolio</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="/static/css/style.css">
+    {% block meta %} {% endblock meta %}
+</head>
+
+<body>
+    <!-- ================= SITE HEADER ================= -->
+    <header class="floating-nav">
+        <div class="nav-content">
+            <a href="{% url 'main:show_main' %}#profile">
+            <img src="/static/img/Subtract.png" alt="Cat Icon" class="cat-logo">
+            </a>
+            <nav aria-label="Main Navigation">
+                <a href="{% url 'main:show_main' %}#profile">Profile</a>
+                <!-- <a href="{% url 'main:show_main' %}#experiences">Experiences</a> -->
+                <a href="{% url 'main:show_experience' %}">Experiences</a>
+                <a href="{% url 'main:show_projects' %}">Projects</a>
+            </nav>
+        </div>
+    </header>
+    {% block content %} {% endblock content %}
+
+    <!-- ================= SITE FOOTER ================= -->
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 {{ name }}. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
+        </div>
+    </footer>
+
+
+</body>
+
+</html>

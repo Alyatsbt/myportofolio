@@ -15,17 +15,15 @@ class Experience(models.Model):
     title = models.CharField(max_length=255)
     organization = models.CharField(max_length=255, default="")
     description = models.TextField()
-    category = models.CharField(max_length=20, choices=EXPERIENCE_CHOICES, default='full-time')
+    # category = models.CharField(max_length=20, choices=EXPERIENCE_CHOICES, default='full-time')
     thumbnail = models.URLField(blank=True, null=True)
-    started_at = models.DateTimeField(auto_now_add=True)
-    ended_at = models.DateTimeField(blank=True, null=True)
+    started_at = models.DateField(null=True, blank=True)
+    ended_at = models.DateField(null=True, blank=True)
+    is_ongoing = models.BooleanField(default=False)
+
     def __str__(self):
         return self.title
     
-    @property
-    def is_ongoing(self):
-        return self.ended_at is None
-
 class Project(models.Model):
     id = models.BigAutoField(primary_key=True)
     title = models.CharField(max_length=255)
@@ -37,3 +35,4 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
+

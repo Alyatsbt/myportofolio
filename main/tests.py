@@ -16,7 +16,7 @@ class MainTest(TestCase):
     def test_main_url_is_accessible(self):
         response = self.client.get(reverse("main:show_main"))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "index.html")
+        self.assertTemplateUsed(response, "homepage.html")
         self.assertContains(response, self.experience.title)
 
     def test_nonexistent_page_returns_404(self):

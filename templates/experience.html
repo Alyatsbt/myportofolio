@@ -1,72 +1,85 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Experience - {{ name }}</title>
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
-    
-    <!-- Custom Stylesheet -->
-    <link rel="stylesheet" href="/static/css/style.css">
-</head>
+{% extends 'base.html' %}
 
-<body>
-
-    <!-- ================= SITE HEADER ================= -->
-    <header class="site-header">
+{% block content %}
+<main>
+    <!-- Meminjam class projects-section agar padding atas/bawah otomatis rapi -->
+    <section class="projects-section" id="experience">
         <div class="container">
-            <a href="{% url 'main:show_main' %}" class="brand">{{ name }}</a>
-
-            <nav aria-label="Main Navigation">
-                <a href="{% url 'main:show_main' %}">Profile</a>
-                <a href="{% url 'main:show_experience' %}">Experience</a>
-            </nav>
-        </div>
-    </header>
-
-    <main>
-        <section class="experience-section" id="experience">
-            <div class="container">
-                <p class="section-kicker">Perjalanan saya sejauh ini</p>
-                <h1>Experience</h1>
-
-                <div class="experience-grid">
-                    {% for experience in experience_list %}
-                        <article class="experience-card">
-                            <span class="experience-category">
-                                {{ experience.get_category_display }}
-                            </span>
-                            <h2>{{ experience.title }}</h2>
-                            <p class="experience-description">
-                                {{ experience.description }}
-                            </p>
-
-                            {% if experience.is_ongoing %}
-                                <p class="experience-status">Sedang berlangsung</p>
-                            {% else %}
-                                <p class="experience-status">Selesai</p>
-                            {% endif %}
-                        </article>
-                    {% empty %}
-                        <p class="empty-state">
-                            Belum ada pengalaman yang ditambahkan.
-                        </p>
-                    {% endfor %}
+            
+            <!-- ====== HEADER ====== -->
+            <div class="project-header">
+                <div class="header-titles">
+                    <h1 class="projects-page-title">Experience</h1>
+                    <p class="section-kicker" >A timeline of my journey (to be continued!)</p>
                 </div>
-            </div>
-        </section>
-    </main>
-    
-    <!-- ================= SITE FOOTER ================= -->
-    <footer class="site-footer">
-        <div class="container">
-            <p>&copy; 2026 {{ name }}. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
-        </div>
-    </footer>
 
-</body>
-</html>
+                    <a href="{% url 'main:create_experience' %}" class="btn-primary btn-add">
+                        <span aria-hidden="true" style="font-size:1.2rem;">+</span> Tambah Experience
+                    </a>
+                
+            </div>
+
+            <!-- ====== SEARCH BAR ====== -->
+            <form method="get" action="{% url 'main:show_experience' %}" class="project-search">
+                <input type="search" name="q" placeholder="Cari berdasarkan nama peran atau pengalaman..." class="project-search_input">
+                <button type="submit" class="btn-primary">Cari</button>
+            </form>
+
+            <!-- ====== GRID 2 KOLOM ====== -->
+            <!-- Class ini otomatis membuat layout kotak-kotak bersebelahan -->
+            <div class="projects-grid">
+                {% for experience in experience_list %}
+                    <article class="project-card">
+                        
+                        <div class="project-image-wrapper">
+                            {% if experience.thumbnail %}
+                                <img src="{{ experience.thumbnail }}" alt="Banner {{ experience.title }}" class="project-image">
+                            {% else %}
+                                <img src="/static/img/photodefault.png" alt="Default Banner" class="project-image">
+                            {% endif %}
+                        </div>
+
+                        <div class="project-body">
+                            <h2 class="project-title">{{ experience.title }}</h2>
+                            <p class="project-subtitle">@ {{ experience.organization }}</p>
+                            
+                            <div class="project-description">
+                                <ul style="padding-left: 1.2rem; margin-bottom: 1rem;">
+                                    {% for point in experience.description.splitlines %}
+                                        {% if point %}
+                                            <li>{{ point|cut:"•" }}</li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+
+                            <!-- Timeline Pill menggunakan styling minimalis bawaan btn-card -->
+                            <div style="margin-bottom: 1rem;">
+                                <span class="btn-card disabled" style="opacity: 0.8;">
+                                    {% if experience.started_at %}
+                                        {{ experience.started_at|date:"Y" }} - {% if experience.is_ongoing %}recent{% else %}{{ experience.ended_at|date:"Y" }}{% endif %}
+                                    {% else %}
+                                        2026 - recent
+                                    {% endif %}
+                                </span>
+                            </div>
+
+                            <div class="project-action">
+                                <div class="action-row2">
+                                    <a href="{% url 'main:update_experience' experience.id %}" class="btn-card">Update</a>
+                                    <button type="button" class="btn-card btn-delete" popovertarget="delete-experience-{{ experience.id }}">Delete</button>
+                                    {% include "components/experience_delete_modal.html" with experience=experience %}
+                                </div>
+                            </div>
+                        </div>
+
+                    </article>
+                {% empty %}
+                    <p class="empty-state">Belum ada pengalaman yang ditambahkan.</p>
+                {% endfor %}
+            </div>
+            
+        </div>
+    </section>
+</main>
+{% endblock content %}
