@@ -2,7 +2,7 @@ from django.urls import path
 from main.views import show_main, show_experience, show_projects, toggle_star
 from main.views import create_project, update_project, get_projects_json, delete_project
 from main.views import create_experience, update_experience, delete_experience, get_experiences_json
-from main.views import register, login_user, logout_user, toggle_star
+from main.views import register, login_user, logout_user
 
 app_name = "main"
 

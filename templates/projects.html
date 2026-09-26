@@ -58,8 +58,10 @@
                                 {% endif %}
                             </div>
                             <div class="action-row2">
-                                {% if user.is_superuser %}
+                                {% if user.is_superuser or is_editor %}
                                     <a href="{% url 'main:update_project' project.id %}" class="btn-card">Update</a>
+                                {% endif %}
+                                {% if user.is_superuser %}
                                     <button type="button" class="btn-card btn-delete" popovertarget="delete-project-{{ project.id }}">Delete</button>
                                     {% include "components/project_delete_modal.html" with project=project %}
                                 {% endif %}

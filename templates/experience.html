@@ -12,16 +12,16 @@
                     <h1 class="projects-page-title">Experience</h1>
                     <p class="section-kicker" >A timeline of my journey (to be continued!)</p>
                 </div>
-
-                    <a href="{% url 'main:create_experience' %}" class="btn-primary btn-add">
-                        <span aria-hidden="true" style="font-size:1.2rem;">+</span> Tambah Experience
-                    </a>
-                
+                    {% if user.is_superuser %}
+                        <a href="{% url 'main:create_experience' %}" class="btn-primary btn-add">
+                            <span aria-hidden="true" style="font-size:1.2rem;">+</span> Tambah Experience
+                        </a>
+                    {% endif %}
             </div>
 
             <!-- ====== SEARCH BAR ====== -->
             <form method="get" action="{% url 'main:show_experience' %}" class="project-search">
-                <input type="search" name="q" placeholder="Cari berdasarkan nama peran atau pengalaman..." class="project-search_input">
+                <input type="search" name="title" placeholder="Cari berdasarkan nama peran atau pengalaman..." class="project-search_input">
                 <button type="submit" class="btn-primary">Cari</button>
             </form>
 
@@ -66,9 +66,13 @@
 
                             <div class="project-action">
                                 <div class="action-row2">
-                                    <a href="{% url 'main:update_experience' experience.id %}" class="btn-card">Update</a>
-                                    <button type="button" class="btn-card btn-delete" popovertarget="delete-experience-{{ experience.id }}">Delete</button>
-                                    {% include "components/experience_delete_modal.html" with experience=experience %}
+                                    {% if user.is_superuser or is_editor %}
+                                        <a href="{% url 'main:update_experience' experience.id %}" class="btn-card">Update</a>
+                                    {% endif %}
+                                    {% if user.is_superuser %}
+                                        <button type="button" class="btn-card btn-delete" popovertarget="delete-experience-{{ experience.id }}">Delete</button>
+                                        {% include "components/experience_delete_modal.html" with experience=experience %}
+                                    {% endif %}   
                                 </div>
                             </div>
                         </div>
