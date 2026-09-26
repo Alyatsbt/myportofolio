@@ -187,3 +187,25 @@ penggunaan:
 - membantu troubleshooting error NoReverseMatch yang terjadi karena typo pada pemanggilan nama URL di fungsi redirect views.py
 
 AI sangat membantu mempercepat siklus debugging yang berlapis, terutama ketika satu error beruntun memicu error lainnya dari sisi database, routing, hingga tampilan UI. Bantuan AI sangat efektif untuk menemukan typo kecil yang sering kali sulit disadari jika hanya dibaca sekilas (seperti konflik nama variabel atau tag HTML yang tidak tertutup). Namun, proses ini juga menunjukkan bahwa saran perbaikan dari AI harus dibaca teliti, karena sering kali letak error-nya ternyata murni dari human error di kode yang saya tulis sendiri.
+
+
+## Tugas 4
+
+### informasi tambahan mengenai akun tester
+|  role  |  username  |
+|--------|------------|
+| admin  | alyatmonie |
+| editor |  alyatsbt  |
+|  user  |   zeevrd   |
+|  user  |  noxemburg |
+
+### Progress Mingguan
+
+### AI Disclosure
+menjelaskan penggunaan AI untuk membantu pengerjaan tugas 4 dan memperdalam pemahaman.
+
+tools : gemini, chatGPT
+
+link : 
+
+penggunaan:

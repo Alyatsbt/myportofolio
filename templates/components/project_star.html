@@ -20,8 +20,15 @@
         </button>
     </form>
 {% else %}
-    <span class="button button-star">
+    <a
+        href="{% url 'main:login' %}"
+        class="button button-star"
+        title="Login untuk memberikan star"
+    >
         <span aria-hidden="true">★</span>
-        {{ project.starred_by.count }}
-    </span>
+        Star
+        <span class="star-count">
+            {{ project.starred_by.count }}
+        </span>
+    </a>
 {% endif %}
