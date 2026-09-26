@@ -3,7 +3,7 @@
         {% csrf_token %}
         <button
             type="submit"
-            class="button button-star{% if user in project.starred_by.all %} is-starred{% endif %}"
+            class="btn-card button-star{% if user in project.starred_by.all %} is-starred{% endif %}"
             title="{% if user in project.starred_by.all %}Batalkan star{% else %}Beri star{% endif %}"
         >
             <span aria-hidden="true">★</span>

@@ -29,7 +29,7 @@
             <!-- Class ini otomatis membuat layout kotak-kotak bersebelahan -->
             <div class="projects-grid">
                 {% for experience in experience_list %}
-                    <article class="project-card">
+                    <article class="project-card experience-card">
                         
                         <div class="project-image-wrapper">
                             {% if experience.thumbnail %}
@@ -54,8 +54,8 @@
                             </div>
 
                             <!-- Timeline Pill menggunakan styling minimalis bawaan btn-card -->
-                            <div style="margin-bottom: 1rem;">
-                                <span class="btn-card disabled" style="opacity: 0.8;">
+                            <div style="margin-bottom: 0;">
+                                <span class="btn-card disabled">
                                     {% if experience.started_at %}
                                         {{ experience.started_at|date:"Y" }} - {% if experience.is_ongoing %}recent{% else %}{{ experience.ended_at|date:"Y" }}{% endif %}
                                     {% else %}

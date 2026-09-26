@@ -272,6 +272,10 @@ h1, .brand {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.experience-card {
+    padding-bottom: 0.75rem;
+}
+
 .experience-card:hover {
     background: var(--card-gradient-hover);
     transform: translateY(-8px);
@@ -514,6 +518,12 @@ h1, .brand {
     gap: 12px;
 }
 
+.action-row1 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
 /* =================================================================
    6. BUTTONS & UI COMPONENTS
    ================================================================ */
@@ -596,11 +606,22 @@ h1, .brand {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    background: var(--ink);
+}
+
+.button-star:hover,
+.button-star:active {
+    background-color: var(--btn-card-h);
+    color: var(--btn-card-h-f);
 }
 
 .button-star.is-starred {
     background: var(--accent);
+}
+
+.button-star:hover,
+.button-star:active {
+    background-color: var(--btn-card-h);
+    color: var(--btn-card-h-f);
 }
 
 .star-count {
