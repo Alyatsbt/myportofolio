@@ -782,13 +782,13 @@ h1, .brand {
     color: var(--ink);
     border: none;
     padding: 0.65rem 1.2rem;
-    border-radius: 8px;
+    border-radius: var(--radius-pill);
     cursor: pointer;
     font-weight: 600;
 }
 
 .button-secondary:hover {
-    background: #e2e8f0;
+    background: #f8b0b0;
 }
 
 /* =================================================================
@@ -799,6 +799,45 @@ h1, .brand {
     color: var(--text-muted);
     font-size: 0.85rem;
     border-top: 1px solid var(--line);
+}
+
+
+    /* ================= FORM PAGE ================= */
+
+/* ================= FORM PAGE ================= */
+
+.form-page {
+    padding-top: 8rem;
+    padding-bottom: 5rem;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 1300px;
+}
+
+.form-title {
+    margin-bottom: 0.5rem;
+}
+
+.form-subtitle {
+    margin-bottom: 2rem;
+}
+
+.project-form {
+    width: 100%;
+    margin-top: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-actions {
+    margin-top: 2rem;
+    display: flex;
+    gap: 12px;
+    align-items: center;
 }
 
 @media (max-width: 768px) {
