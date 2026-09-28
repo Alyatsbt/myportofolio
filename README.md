@@ -187,3 +187,48 @@ penggunaan:
 - membantu troubleshooting error NoReverseMatch yang terjadi karena typo pada pemanggilan nama URL di fungsi redirect views.py
 
 AI sangat membantu mempercepat siklus debugging yang berlapis, terutama ketika satu error beruntun memicu error lainnya dari sisi database, routing, hingga tampilan UI. Bantuan AI sangat efektif untuk menemukan typo kecil yang sering kali sulit disadari jika hanya dibaca sekilas (seperti konflik nama variabel atau tag HTML yang tidak tertutup). Namun, proses ini juga menunjukkan bahwa saran perbaikan dari AI harus dibaca teliti, karena sering kali letak error-nya ternyata murni dari human error di kode yang saya tulis sendiri.
+
+
+## Tugas 4
+
+### informasi tambahan mengenai akun tester
+|  role  |  username  |
+|--------|------------|
+| admin  | alyatmonie |
+| editor |  alyatsbt  |
+|  user  |   zeevrd   |
+|  user  |  noxemburg |
+
+### Progress Mingguan
+**full commit history bisa dilihat di branch tugas-4 dan main**
+
+- 26 sept 2026 :
+1. Menyelesaikan implementasi Tutorial 4: authentication,  manajemen session, dan penggunaan cookie.
+2.  Mengimplementasikan sistem otorisasi berbasis peran (Role-Based Access Control) dengan membagi hak akses ke dalam empat tingkatan: pengunjung (guest), pengguna biasa (user), editor, dan superuser.
+3. Memperbaiki bug pada logika tombol star agar menampilkan perilaku dan validasi yang benar ketika berinteraksi dengan pengunjung yang belum login.  
+
+- 27 sept 2026 :
+1. Memperbaiki dan merapikan antarmuka pengguna (UI) khusus untuk elemen tombol star. 
+2. Melakukan penyesuaian tata letak dan desain UI secara menyeluruh pada berbagai tombol aksi serta form input data.
+3.  Menambahkan skrip pengujian E2E (End-to-End) baru untuk menguji alur autentikasi dan memastikan sistem pembatasan akses berjalan dengan baik.
+
+### AI Disclosure
+menjelaskan penggunaan AI untuk membantu pengerjaan tugas 4 dan memperdalam pemahaman.
+
+tools : gemini, chatGPT
+
+link : 
+https://chatgpt.com/share/6aba79c9-1d20-83ec-a2a8-973660de53bb
+https://share.gemini.google/JknJ5S4Zfp4h
+
+penggunaan:
+
+- membantu troubleshooting TimeoutException pada testing Selenium dengan menginstruksikan penambahan atribut class="project-form" pada tag form di projects_form.html.
+
+- membantu menyelesaikan error fatal Git saat melakukan push branch baru dengan mengoreksi typo kurang spasi pada argumen -u origin.
+
+- membantu memahami behavior fitur star untuk user yang belum login (guest), termasuk mengarahkan guest ke halaman login ketika mencoba menggunakan fitur yang membutuhkan autentikasi.
+
+- membantu memahami penggunaan form.instance.pk pada template Django untuk membedakan kondisi ketika form digunakan untuk menambahkan data baru dan ketika digunakan untuk meng-update data yang sudah ada.
+
+AI membantu mempercepat proses pemahaman konsep, debugging, dan evaluasi. Namun, setiap saran tetap diperiksa dan disesuaikan kembali dengan kode serta kebutuhan tugas sebelum diterapkan.
