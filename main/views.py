@@ -143,6 +143,11 @@ def create_experience(request):
     if request.method == "POST" and form.is_valid():
         form.save()
         return redirect("main:show_experience")
+    context = {
+        "name": "Alya Tsabita Imani",
+        "form": form,
+        "is_update": False,
+    }
     return render(request, "experience_form.html", {"form": form})
 
 
@@ -159,6 +164,11 @@ def update_experience(request, id):
     if request.method == "POST" and form.is_valid():
         form.save()
         return redirect("main:show_experience")
+    context = {
+        "name": "Alya Tsabita Imani",
+        "form": form,
+        "is_update": True,
+    }
     return render(request, "experience_form.html", {"form": form})
 
 

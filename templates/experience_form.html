@@ -2,10 +2,10 @@
 
 {% block meta %}
     <title>
-        {% if form.instance.pk %}
-            Update Experience - {{ name }}
+        {% if is_update %}
+            Update Experience {{ name }}
         {% else %}
-            Tambah Experience - {{ name }}
+            Add New Experience {{ name }}
         {% endif %}
     </title>
 {% endblock meta %}
@@ -16,10 +16,10 @@
         <div class="container form-container">
 
             <h1 class="projects-page-title form-title">
-                {% if form.instance.pk %}
-                    Update Experience
+                {% if is_update %}
+                    Update Experience {{ name }}
                 {% else %}
-                    Tambah Experience
+                    Add New Experience {{ name }}
                 {% endif %}
             </h1>
 
