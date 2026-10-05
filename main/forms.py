@@ -57,9 +57,9 @@ class ProjectForm(forms.ModelForm):
             raise ValidationError("Nama proyek tidak boleh hanya berisi tag HTML.")
         return title
 
-    def clean_tech_stack(self):
-        return strip_tags(self.cleaned_data["tech_stack"]).strip()
-
+    def clean_subtitle(self):
+        return strip_tags(self.cleaned_data["subtitle"]).strip()
+    
     def clean_description(self):
         return strip_tags(self.cleaned_data["description"]).strip()
 

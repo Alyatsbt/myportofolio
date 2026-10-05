@@ -46,55 +46,5 @@
       "project_url": "https://www.instagram.com/compfest",
       "created_at": "2026-09-14T00:00:00Z"
     }
-  },
-  {
-    "model": "main.experience",
-    "pk": "c1a2e344-77bb-4e94-9118-29efd6f03001",
-    "fields": {
-      "title": "VPIC of Visual Design",
-      "organization": "Compfest",
-      "thumbnail": "/static/img/18.png",
-      "description": "• Leading and managing a dedicated visual design team to ensure high-quality creative output for the largest student-led IT event in Indonesia.\n• Architecting a comprehensive Design System and visual guidelines using Figma to maintain brand consistency across all digital and physical platforms. Responsible for all event visual assets.",
-      "started_at": "2026-01-01T00:00:00Z",
-      "is_ongoing": true,
-      "ended_at": null
-    }
-  },
-  {
-    "model": "main.experience",
-    "pk": "c2b3e455-88cc-4f95-a229-30fad7f04002",
-    "fields": {
-      "title": "Digital Marketing & Brand Strategist in Business and Partnership Bureau",
-      "organization": "BEM FASILKOM UI",
-      "thumbnail": "/static/img/19.png",
-      "description": "• Conceptualized the 7D mini-brief to streamline digital marketing efforts and improve overall project management within the bureau.\n• Formulated targeted content plans and analyzed key audiences.",
-      "started_at": "2026-02-01T00:00:00Z",
-      "is_ongoing": true,
-      "ended_at": null
-    }
-  },
-  {
-    "model": "main.experience",
-    "pk": "c3c4e566-99dd-5a06-b330-41fae8f05003",
-    "fields": {
-      "title": "Staff of UI/UX",
-      "organization": "DDP0",
-      "thumbnail": "/static/img/20.png",
-      "description": "• Designed intuitive, user-centered interfaces and high-fidelity prototypes using Figma to enhance the digital learning experience for First-year students.\n• Collaborated closely with the technical team to translate project requirements into functional design solutions, ensuring accurate and seamless UI/UX implementation.",
-      "started_at": "2026-02-01T00:00:00Z",
-      "ended_at": "2026-05-31T00:00:00Z"
-    }
-  },
-  {
-    "model": "main.experience",
-    "pk": "c4d5e677-00ee-6b17-c441-52faf9f06004",
-    "fields": {
-      "title": "Staff of UI/UX",
-      "organization": "BETIS FASILKOM",
-      "thumbnail": "/static/img/21.png",
-      "description": "• Designed intuitive, user-centered interfaces and high-fidelity prototypes using Figma to enhance the digital learning experience for high school student.\n• Conducted User Testing and validation to iterate on design solutions based on real user feedback and pain points.",
-      "started_at": "2026-01-01T00:00:00Z",
-      "ended_at": "2026-06-30T00:00:00Z"
-    }
-  }
+}
 ]
