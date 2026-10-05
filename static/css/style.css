@@ -599,13 +599,32 @@ h1, .brand {
 /* star button (dari tutor 4) */
 
 .star-form {
-    display: inline;
+    display: inline-flex;
 }
 
 .button-star {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.4rem;
+
+    height: 40px;
+    width: fit-content;
+    padding: 0 1.2rem;
+
+    border: 1px solid transparent;
+    border-radius: var(--radius-pill);
+
+    background-color: var(--accent);
+    color: var(--white);
+
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1;
+
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 .button-star:hover,
@@ -615,17 +634,11 @@ h1, .brand {
 }
 
 .button-star.is-starred {
-    background: var(--accent);
-}
-
-.button-star:hover,
-.button-star:active {
-    background-color: var(--btn-card-h);
-    color: var(--btn-card-h-f);
+    background-color: var(--accent-dark);
 }
 
 .star-count {
-    padding: 0.05rem 0.4rem;
+    padding: 0.15rem 0.45rem;
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.25);
     font-size: 0.8rem;
