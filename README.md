@@ -232,3 +232,54 @@ penggunaan:
 - membantu memahami penggunaan form.instance.pk pada template Django untuk membedakan kondisi ketika form digunakan untuk menambahkan data baru dan ketika digunakan untuk meng-update data yang sudah ada.
 
 AI membantu mempercepat proses pemahaman konsep, debugging, dan evaluasi. Namun, setiap saran tetap diperiksa dan disesuaikan kembali dengan kode serta kebutuhan tugas sebelum diterapkan.
+
+
+## Tugas 5
+
+### Pertanyaan Reflektif
+
+1. Debouncing adalah teknik untuk menunda eksekusi suatu fungsi sampai tidak ada input baru dalam jangka waktu tertentu. Pada fitur pencarian yang menggunakan AJAX, teknik ini penting karena tanpa debouncing setiap perubahan pada input dapat langsung mengirim request ke server. Misalnya saat pengguna mengetik "compfest", browser bisa mengirim request untuk "c", "co", "com", dan seterusnya. Dengan debouncing, timer akan di-reset setiap kali pengguna mengetik, sehingga request baru dikirim setelah pengguna berhenti mengetik selama beberapa saat. Hal ini mengurangi jumlah request ke server dan membuat penggunaan AJAX menjadi lebih efisien.
+
+2. `await` digunakan untuk menunggu sebuah Promise selesai sebelum program melanjutkan ke baris berikutnya. Pada `fetch()`, `await` digunakan agar kita dapat menunggu sampai server memberikan response sebelum membaca data JSON dari response tersebut. Jika tidak menggunakan `await`, hasil dari `fetch()` masih berupa Promise sehingga data belum dapat langsung digunakan sebagai response. Akibatnya, kita perlu menangani Promise tersebut dengan cara lain seperti `.then()`, atau jika langsung mengakses data seolah-olah response sudah tersedia, kode dapat menghasilkan error.
+
+3. XSS (Cross-Site Scripting) adalah serangan ketika data yang berasal dari pengguna dimasukkan ke halaman web sebagai HTML atau script sehingga browser dapat menjalankan kode berbahaya tersebut. Data yang ditampilkan melalui AJAX/JavaScript lebih berisiko apabila data dimasukkan ke halaman menggunakan `innerHTML` tanpa melakukan escaping terlebih dahulu, karena JavaScript dapat secara langsung membentuk dan menyisipkan HTML dari data yang diterima server. Sementara itu, pada template Django, data yang ditampilkan menggunakan `{{ variable }}` secara default akan melalui proses escaping HTML sehingga karakter seperti `<` dan `>` tidak langsung dianggap sebagai tag. Oleh karena itu, pada implementasi AJAX saya menggunakan fungsi `escapeHtml()` untuk data yang dimasukkan ke HTML dan `strip_tags()` pada `ModelForm` untuk membersihkan input dari tag HTML di sisi server.
+
+### Progress Mingguan
+
+**full commit history bisa dilihat di branch tugas-5 dan main**
+
+- 30 sept 2026 :
+  1. menyelesaikan implementasi Tutorial 05 yang berfokus pada JavaScript, AJAX, Fetch API, debounce, toast notification, dan XSS protection
+
+- 5 okt 2026 :
+  1. mengubah halaman Experience dari server-rendered menjadi dynamic rendering menggunakan AJAX dan Fetch API
+  2. menambahkan debounced search pada halaman Experience agar request pencarian tidak dikirim pada setiap karakter
+  3. menambahkan fitur star pada Experience serta mengirimkan informasi jumlah star dan status star pengguna pada JSON
+  4. mengimplementasikan penambahan Experience melalui modal menggunakan POST AJAX, CSRF token, validasi ModelForm, serta response status 201, 400, dan 403
+  5. menghubungkan Django messages dengan toast notification untuk memberikan feedback setelah proses tambah, update, dan delete data
+  6. menerapkan perlindungan XSS dengan `escapeHtml()` pada data yang dirender melalui JavaScript dan `strip_tags()` pada validasi `ExperienceForm`
+  7. melakukan penyesuaian struktur Project agar kompatibel dengan AJAX Tutorial 05, termasuk penyesuaian field JSON dan penggunaan UUID sebagai primary key Project
+  8. melakukan penyesuaian fixture `data.json` agar sesuai dengan struktur model terbaru
+
+  ### AI Disclosure
+
+menjelaskan penggunaan AI untuk membantu pengerjaan tugas 5 dan memperdalam pemahaman mengenai JavaScript, AJAX, dan Fetch API.
+
+tools : ChatGPT
+
+log: https://chatgpt.com/share/6ac3cc23-2ed4-83ec-8c75-c39702b1c5f6 
+
+penggunaan:
+
+- membantu memahami konsep AJAX, Fetch API, `async/await`, debouncing, DOM manipulation, CSRF, dan XSS
+- membantu menyesuaikan contoh Tutorial 05 dengan struktur project saya, terutama karena field dan model pada project berbeda dengan contoh yang digunakan di tutorial
+- membantu troubleshooting error pada implementasi AJAX, seperti `NoReverseMatch`, `IntegrityError: datatype mismatch`, dan masalah ketidaksesuaian tipe primary key antara model, URL, fixture, dan database
+- membantu mengimplementasikan AJAX pada halaman Experience, termasuk pengambilan data JSON, debounced search, modal form, POST AJAX, dan penanganan response status 201, 400, dan 403
+- membantu mengimplementasikan fitur star pada Experience dan menyesuaikan data JSON agar dapat menampilkan jumlah star serta status star pengguna yang sedang login
+- membantu menghubungkan Django messages dengan fungsi toast notification
+- membantu mengevaluasi perlindungan XSS melalui `escapeHtml()` pada JavaScript dan `strip_tags()` pada ModelForm
+- membantu melakukan refactor dan penyesuaian struktur HTML serta CSS agar komponen Project dan Experience menggunakan class yang lebih konsisten
+
+AI digunakan sebagai alat bantu untuk memahami konsep, mencari penyebab error, dan mengevaluasi alternatif implementasi. Kode dan keputusan akhir tetap disesuaikan secara manual dengan struktur project yang saya gunakan. Beberapa saran dari AI tidak langsung diterapkan karena perlu disesuaikan dengan model, URL routing, database, dan struktur template yang berbeda dari contoh tutorial.
+
+Salah satu contohnya adalah penggunaan UUID pada primary key `Project`. Perubahan tersebut menyebabkan ketidaksesuaian dengan database dan fixture lama sehingga perlu dilakukan penanganan migration, reset data Project, dan penyesuaian `data.json` secara manual sebelum aplikasi dapat berjalan kembali.
