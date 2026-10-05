@@ -3,7 +3,7 @@ from main.views import show_main, show_experience, show_projects, toggle_star, t
 from main.views import create_project, update_project, get_projects_json, delete_project
 from main.views import create_experience, update_experience, delete_experience, get_experiences_json
 from main.views import register, login_user, logout_user
-from main.views import create_project_ajax
+from main.views import create_project_ajax, create_experience_ajax
 
 app_name = "main"
 
@@ -25,6 +25,7 @@ urlpatterns = [
     path("experience/<uuid:id>/delete/", delete_experience, name="delete_experience"),
     path("api/experiences/", get_experiences_json, name="get_experiences_json"),
     path("experience/<uuid:experience_id>/star/", toggle_experience_star, name="toggle_experience_star"),
+    path("experience/add-ajax/", create_experience_ajax, name="create_experience_ajax"),
 
     path("register/", register, name="register"),
     path("login/", login_user, name="login"),

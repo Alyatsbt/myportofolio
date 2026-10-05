@@ -1,8 +1,36 @@
-  {% load static %}
-  <div id="toast-component" class="toast-component toast-hidden" popover="manual">
-      <div class="toast-content">
-          <h3 id="toast-title" class="toast-title">This is a Sample Title</h3>
-          <p id="toast-message" class="toast-message">This is a Sample Message</p>
-      </div>
-  </div>
-  <script src="{% static 'js/toast.js' %}"></script>
+{% load static %}
+
+<div id="toast-component" class="toast-component toast-hidden" popover="manual">
+    <div class="toast-content">
+        <h3 id="toast-title" class="toast-title">This is a Sample Title</h3>
+        <p id="toast-message" class="toast-message">This is a Sample Message</p>
+    </div>
+</div>
+
+<script src="{% static 'js/toast.js' %}"></script>
+
+{% if messages %}
+    <div id="django-messages" hidden>
+        {% for message in messages %}
+            <div
+                class="django-message"
+                data-message="{{ message|escape }}"
+                data-type="{{ message.tags }}"
+            ></div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const messages = document.querySelectorAll(".django-message");
+
+        messages.forEach(function(message) {
+            showToast(
+                "Notifikasi",
+                message.dataset.message,
+                message.dataset.type || "normal"
+            );
+        });
+    });
+</script>

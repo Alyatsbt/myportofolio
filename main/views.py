@@ -45,6 +45,7 @@ def show_experience(request):
         "query": query,
         "experience_list": experiences,
         "is_editor": is_editor,
+        "form": ExperienceForm(),
     }
     return render(request, "experience.html", context)
 
@@ -175,7 +176,12 @@ def update_experience(request, id):
     form = ExperienceForm(request.POST or None, instance=experience)
     if request.method == "POST" and form.is_valid():
         form.save()
+        messages.success(
+            request,
+            "Experience berhasil diperbarui!"
+        )
         return redirect("main:show_experience")
+    
     context = {
         "name": "Alya Tsabita Imani",
         "form": form,
@@ -192,6 +198,10 @@ def delete_experience(request, id):
     experience = get_object_or_404(Experience, pk=id)
     if request.method == "POST":
         experience.delete()
+        messages.success(
+            request,
+            "Experience berhasil dihapus!"
+        )
     return redirect("main:show_experience")
 
 
@@ -236,6 +246,31 @@ def get_experiences_json(request):
             }
         })
     return JsonResponse(data, safe=False)
+
+
+@require_POST
+def create_experience_ajax(request):
+    if not request.user.is_superuser:
+        return JsonResponse(
+            {
+                "message": "Hanya pemilik portofolio yang dapat menambahkan experience."
+            },
+            status=403,
+        )
+    form = ExperienceForm(request.POST)
+    if form.is_valid():
+        experience = form.save()
+        return JsonResponse(
+            {
+                "message": "Experience berhasil ditambahkan.",
+                "pk": str(experience.id),
+            },
+            status=201,
+        )
+    return JsonResponse(
+        {"errors": form.errors.get_json_data()},
+        status=400,
+    )
 
 
 def register(request):

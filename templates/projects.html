@@ -10,13 +10,6 @@
 
         <!-- Header -->
         <div class="project-header">
-            <button
-                class="button button-secondary"
-                onclick="showToast('Notifikasi Sistem', 'Project berhasil dimuat dengan baik!', 'success')"
-            >
-                Test Toast Notifikasi
-            </button>
-
             <div class="header-titles">
                 <h1 class="projects-page-title">Projects</h1>
                 <p class="section-kicker" style="margin: 0;">
@@ -119,13 +112,24 @@ function buildProjectCardElement(item) {
     const articleElement = document.createElement('article');
     articleElement.className = 'experience-card';
 
-    const imageHtml = project.project_image_url
-            ? `<img src="${escapeHtml(project.project_image_url)}" alt="Gambar ${escapeHtml(project.title)}" class="project-image">`
-            : '';
+    const imageHtml = project.thumbnail
+        ? `<img
+                src="${escapeHtml(project.thumbnail)}"
+                alt="Gambar ${escapeHtml(project.title)}"
+                class="project-image">`
+        : `<img
+                src="/static/img/photodefault.png"
+                alt="Default Banner"
+                class="project-image">`;
 
     const urlHtml = project.project_url
-        ? `<a href="${escapeHtml(project.project_url)}" class="button">Lihat Project</a>`
-        : '';
+        ? `<a
+                href="${escapeHtml(project.project_url)}"
+                class="btn-card"
+                target="_blank"
+                rel="noopener noreferrer">
+                Open Project</a>`
+            : "";
 
     // Dummy UUID digunakan untuk digantikan oleh ID asli dari data JSON
     const deleteUrl = "{% url 'main:delete_project' '00000000-0000-0000-0000-000000000000' %}"
@@ -150,7 +154,7 @@ function buildProjectCardElement(item) {
     const completeCardHtml = `
         ${imageHtml}
         <h2>${escapeHtml(project.title)}</h2>
-        <span class="experience-category">${escapeHtml(project.tech_stack)}</span>
+        <span class="experience-category">${escapeHtml(project.subtitle)}</span>
         <p class="experience-description">${escapeHtml(project.description)}</p>
         <div class="project-card-actions">
             <div class="project-actions">
