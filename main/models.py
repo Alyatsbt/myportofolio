@@ -16,27 +16,35 @@ class Experience(models.Model):
     title = models.CharField(max_length=255)
     organization = models.CharField(max_length=255, default="")
     description = models.TextField()
-    # category = models.CharField(max_length=20, choices=EXPERIENCE_CHOICES, default='full-time')
     thumbnail = models.URLField(blank=True, null=True)
     started_at = models.DateField(null=True, blank=True)
     ended_at = models.DateField(null=True, blank=True)
     is_ongoing = models.BooleanField(default=False)
-    
+    starred_by = models.ManyToManyField(
+        User,
+        related_name="starred_experiences",
+        blank=True
+)
 
     def __str__(self):
         return self.title
-    
+
+
 class Project(models.Model):
-    id = models.BigAutoField(primary_key=True)
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False
+    )
     title = models.CharField(max_length=255)
     subtitle = models.CharField(max_length=255)
     description = models.TextField()
-    thumbnail = models.CharField(max_length=255, blank=True, null=True) # path static atau URL
-    project_url = models.URLField(blank=True, null=True) # Link ke prototype Figma
+    thumbnail = models.CharField(max_length=255, blank=True, null=True)
+    project_url = models.URLField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     starred_by = models.ManyToManyField(
-        User, related_name="starred_projects", blank=True)
-
-    def __str__(self):
-        return self.title
+        User,
+        related_name="starred_projects",
+        blank=True
+    )
 
