@@ -78,7 +78,8 @@
     const gridContainer = document.getElementById("experience-grid");
     const searchForm = document.getElementById("experience-search-form");
     const searchInput = document.getElementById("experience-search-input");
-
+    const SEARCH_DEBOUNCE_DELAY = 300;
+    let searchDebounceTimer;
 
     // Menampilkan state halaman
     function displayPageSection({
@@ -355,14 +356,26 @@
         }
     }
 
-    // Search tanpa reload halaman
-    searchForm.addEventListener("submit", function(event) {
-        event.preventDefault();
-        fetchExperiences(
-            searchInput.value.trim()
-        );
+    // Search saat user berhenti mengetik
+    function searchExperiences() {
+        fetchExperiences(searchInput.value.trim());
+    }
+
+    searchInput.addEventListener("input", function() {
+        clearTimeout(searchDebounceTimer);
+        searchDebounceTimer = setTimeout(function() {
+            searchExperiences();
+        }, SEARCH_DEBOUNCE_DELAY);
     });
 
-    fetchExperiences();
+    // Tombol Cari / Enter tetap bisa digunakan
+    searchForm.addEventListener("submit", function(event) {
+        event.preventDefault();
+        clearTimeout(searchDebounceTimer);
+        searchExperiences();
+    });
+
+// Muat semua experience saat halaman pertama dibuka
+fetchExperiences();
 </script>
 {% endblock content %}
