@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import include, path
 from main.views import show_main, show_experience, show_projects, toggle_star, toggle_experience_star
 from main.views import create_project, update_project, get_projects_json, delete_project
 from main.views import create_experience, update_experience, delete_experience, get_experiences_json
@@ -30,5 +30,8 @@ urlpatterns = [
     path("register/", register, name="register"),
     path("login/", login_user, name="login"),
     path("logout/", logout_user, name="logout"),
+
+    path("api/v1/", include("main.api_urls")),
+    path("api-auth/", include("rest_framework.urls")),
     ]
 

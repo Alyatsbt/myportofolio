@@ -137,36 +137,23 @@ class ProjectTest(TestCase):
         response = self.client.get(
             reverse("main:show_projects")
         )
-        self.assertEqual(
-            response.status_code,
-            200
-        )
-        self.assertContains(
-            response,
-            self.project.title
-        )
-        self.assertContains(
-            response,
-            self.project.subtitle
-        )
-        self.assertContains(
-            response,
-            self.project.description
-        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "projects.html")
+
+        # Data akan dimuat oleh JavaScript melalui API,
+        # jadi kita cukup memastikan elemen grid tersedia.
+        self.assertContains(response, 'id="grid"')
+        self.assertContains(response, "/api/v1/projects/")
 
     def test_empty_projects_page(self):
         Project.objects.all().delete()
+
         response = self.client.get(
             reverse("main:show_projects")
         )
-        self.assertEqual(
-            response.status_code,
-            200
-        )
-        self.assertContains(
-            response,
-            "Belum ada project yang ditambahkan."
-        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'id="empty"')
 
     def test_project_search_by_title(self):
         Project.objects.create(
@@ -174,22 +161,18 @@ class ProjectTest(TestCase):
             subtitle="Personal Portfolio",
             description="A portfolio website.",
         )
+
         response = self.client.get(
-            reverse("main:show_projects"),
+            reverse("api:project-list"),
             {"title": "Portfolio"}
         )
-        self.assertEqual(
-            response.status_code,
-            200
-        )
-        self.assertContains(
-            response,
-            "Portfolio Website"
-        )
-        self.assertNotContains(
-            response,
-            "FocusBuddy"
-        )
+
+        self.assertEqual(response.status_code, 200)
+
+        projects = response.json()
+
+        self.assertEqual(len(projects), 1)
+        self.assertEqual(projects[0]["title"], "Portfolio Website")
 
 
 # ============================================================
@@ -770,4 +753,200 @@ class StarTest(TestCase):
         )
         self.assertFalse(
             self.project.starred_by.exists()
+        )
+
+
+# ============================================================
+# PROJECT API TEST
+# ============================================================
+
+class ProjectAPITest(TestCase):
+
+    def setUp(self):
+        self.superuser = User.objects.create_superuser(
+            username="admin",
+            password="admin123"
+        )
+
+        self.user = User.objects.create_user(
+            username="user",
+            password="user123"
+        )
+
+        self.project = Project.objects.create(
+            title="FocusBuddy",
+            subtitle="AI-Powered Task Decomposition",
+            description="A cognitive-friendly productivity platform",
+            thumbnail="/static/img/focusbuddyframe.png",
+            project_url="https://www.figma.com",
+        )
+
+        self.list_url = reverse("api:project-list")
+        self.detail_url = reverse(
+            "api:project-detail",
+            args=[self.project.id]
+        )
+
+    # --------------------------------------------------------
+    # GET PROJECT LIST
+    # --------------------------------------------------------
+
+    def test_api_can_get_all_projects(self):
+        response = self.client.get(self.list_url)
+
+        self.assertEqual(response.status_code, 200)
+
+        data = response.json()
+
+        self.assertEqual(len(data), 1)
+        self.assertEqual(data[0]["title"], "FocusBuddy")
+
+    def test_api_can_search_project_by_title(self):
+        Project.objects.create(
+            title="Portfolio Website",
+            subtitle="Personal Portfolio",
+            description="A portfolio website."
+        )
+
+        response = self.client.get(
+            self.list_url,
+            {"title": "Portfolio"}
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        data = response.json()
+
+        self.assertEqual(len(data), 1)
+        self.assertEqual(data[0]["title"], "Portfolio Website")
+
+    def test_api_returns_empty_list_when_no_project_matches(self):
+        response = self.client.get(
+            self.list_url,
+            {"title": "Nonexistent"}
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), [])
+
+    # --------------------------------------------------------
+    # GET PROJECT DETAIL
+    # --------------------------------------------------------
+
+    def test_api_can_get_project_detail(self):
+        response = self.client.get(self.detail_url)
+
+        self.assertEqual(response.status_code, 200)
+
+        data = response.json()
+
+        self.assertEqual(data["id"], str(self.project.id))
+        self.assertEqual(data["title"], "FocusBuddy")
+
+    # --------------------------------------------------------
+    # POST PROJECT
+    # --------------------------------------------------------
+
+    def test_superuser_can_create_project_through_api(self):
+        self.client.force_login(self.superuser)
+
+        payload = {
+            "title": "New Project",
+            "subtitle": "A new project",
+            "description": "Created through the API",
+            "thumbnail": "",
+            "project_url": "",
+        }
+
+        response = self.client.post(
+            self.list_url,
+            payload,
+            content_type="application/json"
+        )
+
+        self.assertEqual(response.status_code, 201)
+
+        self.assertTrue(
+            Project.objects.filter(
+                title="New Project"
+            ).exists()
+        )
+
+    def test_normal_user_cannot_create_project_through_api(self):
+        self.client.force_login(self.user)
+
+        payload = {
+            "title": "Unauthorized Project",
+            "subtitle": "Test",
+            "description": "Should not be created",
+        }
+
+        response = self.client.post(
+            self.list_url,
+            payload,
+            content_type="application/json"
+        )
+
+        self.assertEqual(response.status_code, 403)
+
+        self.assertFalse(
+            Project.objects.filter(
+                title="Unauthorized Project"
+            ).exists()
+        )
+
+    def test_anonymous_user_cannot_create_project_through_api(self):
+        payload = {
+            "title": "Unauthorized Project",
+            "subtitle": "Test",
+            "description": "Should not be created",
+        }
+
+        response = self.client.post(
+            self.list_url,
+            payload,
+            content_type="application/json"
+        )
+
+        self.assertEqual(response.status_code, 403)
+
+    # --------------------------------------------------------
+    # PATCH PROJECT
+    # --------------------------------------------------------
+
+    def test_superuser_can_update_project_through_api(self):
+        self.client.force_login(self.superuser)
+
+        response = self.client.patch(
+            self.detail_url,
+            {
+                "title": "Updated FocusBuddy"
+            },
+            content_type="application/json"
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        self.project.refresh_from_db()
+
+        self.assertEqual(
+            self.project.title,
+            "Updated FocusBuddy"
+        )
+
+    # --------------------------------------------------------
+    # DELETE PROJECT
+    # --------------------------------------------------------
+
+    def test_superuser_can_delete_project_through_api(self):
+        self.client.force_login(self.superuser)
+
+        response = self.client.delete(self.detail_url)
+
+        self.assertEqual(response.status_code, 204)
+
+        self.assertFalse(
+            Project.objects.filter(
+                id=self.project.id
+            ).exists()
         )
