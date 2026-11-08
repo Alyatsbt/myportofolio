@@ -4,6 +4,7 @@ from django.contrib.auth.models import User, Group
 from django.utils import timezone
 
 from main.models import Experience, Project
+from rest_framework.test import APITestCase, APIClient
 
 
 # ============================================================
@@ -991,3 +992,279 @@ class ProjectAPITest(TestCase):
                 id=self.project.id
             ).exists()
         )
+
+
+
+# ============================================================
+# EXPERIENCE API TEST
+# ============================================================
+
+class ExperienceAPITest(APITestCase):
+
+    def setUp(self):
+        # Membuat tiga jenis user
+        self.owner = User.objects.create_superuser(
+            username="owner",
+            email="owner@example.com",
+            password="password123"
+        )
+
+        self.normal_user = User.objects.create_user(
+            username="normal",
+            password="password123"
+        )
+
+        self.editor = User.objects.create_user(
+            username="editor",
+            password="password123"
+        )
+
+        # Memasukkan editor ke grup Editor
+        self.editor_group = Group.objects.create(name="Editor")
+        self.editor.groups.add(self.editor_group)
+
+        # Membuat data Experience untuk pengujian
+        self.experience = Experience.objects.create(
+            title="Asisten Dosen PBP",
+            organization="Universitas Indonesia",
+            description="Membantu mahasiswa memahami pengembangan web.",
+            started_at=timezone.now().date(),
+            is_ongoing=True,
+        )
+
+        # URL API
+        self.list_url = reverse("api:experience-list")
+        self.detail_url = reverse(
+            "api:experience-detail",
+            kwargs={"experience_id": self.experience.pk}
+        )
+        self.star_url = reverse(
+            "api:experience-star",
+            kwargs={"experience_id": self.experience.pk}
+        )
+
+        # Data valid untuk membuat Experience baru
+        self.valid_payload = {
+            "title": "UI/UX Designer",
+            "organization": "BEM Fasilkom UI",
+            "description": "Merancang antarmuka aplikasi.",
+            "started_at": timezone.now().date().isoformat(),
+            "is_ongoing": True,
+        }
+
+    # ========================================================
+    # PUBLIC ACCESS
+    # ========================================================
+
+    def test_anonymous_can_read_experience(self):
+        response = self.client.get(self.list_url)
+        self.assertEqual(response.status_code, 200)
+
+        response = self.client.get(self.detail_url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_anonymous_cannot_create_experience(self):
+        response = self.client.post(
+            self.list_url,
+            self.valid_payload,
+            format="json"
+        )
+
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(Experience.objects.count(), 1)
+
+    # ========================================================
+    # NORMAL USER
+    # ========================================================
+
+    def test_normal_user_can_star_and_unstar(self):
+        self.client.force_authenticate(user=self.normal_user)
+
+        # Star Experience
+        response = self.client.post(self.star_url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(
+            self.experience.starred_by.filter(
+                pk=self.normal_user.pk
+            ).exists()
+        )
+        self.assertTrue(response.data["is_starred"])
+
+        # Unstar Experience
+        response = self.client.post(self.star_url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(
+            self.experience.starred_by.filter(
+                pk=self.normal_user.pk
+            ).exists()
+        )
+        self.assertFalse(response.data["is_starred"])
+
+    def test_anonymous_cannot_star(self):
+        response = self.client.post(self.star_url)
+
+        self.assertEqual(response.status_code, 403)
+
+    def test_normal_user_cannot_update_or_delete(self):
+        self.client.force_authenticate(user=self.normal_user)
+
+        original_title = self.experience.title
+
+        # PATCH harus ditolak
+        response = self.client.patch(
+            self.detail_url,
+            {"title": "Changed Title"},
+            format="json"
+        )
+        self.assertEqual(response.status_code, 403)
+
+        # DELETE harus ditolak
+        response = self.client.delete(self.detail_url)
+        self.assertEqual(response.status_code, 403)
+
+        # Pastikan database tidak berubah
+        self.experience.refresh_from_db()
+        self.assertEqual(self.experience.title, original_title)
+
+    # ========================================================
+    # EDITOR
+    # ========================================================
+
+    def test_editor_can_update_experience(self):
+        self.client.force_authenticate(user=self.editor)
+
+        response = self.client.patch(
+            self.detail_url,
+            {"title": "Updated Experience"},
+            format="json"
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        self.experience.refresh_from_db()
+        self.assertEqual(
+            self.experience.title,
+            "Updated Experience"
+        )
+
+    def test_editor_cannot_create_or_delete_experience(self):
+        self.client.force_authenticate(user=self.editor)
+
+        # POST harus ditolak
+        response = self.client.post(
+            self.list_url,
+            self.valid_payload,
+            format="json"
+        )
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(Experience.objects.count(), 1)
+
+        # DELETE harus ditolak
+        response = self.client.delete(self.detail_url)
+        self.assertEqual(response.status_code, 403)
+        self.assertTrue(
+            Experience.objects.filter(pk=self.experience.pk).exists()
+        )
+
+    # ========================================================
+    # PORTFOLIO OWNER
+    # ========================================================
+
+    def test_owner_can_create_update_and_delete_experience(self):
+        self.client.force_authenticate(user=self.owner)
+
+        # POST: Create
+        response = self.client.post(
+            self.list_url,
+            self.valid_payload,
+            format="json"
+        )
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(Experience.objects.count(), 2)
+
+        new_id = response.data["id"]
+
+        # PUT: Update
+        new_detail_url = reverse(
+            "api:experience-detail",
+            kwargs={"experience_id": new_id}
+        )
+
+        updated_payload = {
+            **self.valid_payload,
+            "title": "Updated by Owner",
+        }
+
+        response = self.client.put(
+            new_detail_url,
+            updated_payload,
+            format="json"
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        # DELETE
+        response = self.client.delete(new_detail_url)
+
+        self.assertEqual(response.status_code, 204)
+        self.assertEqual(Experience.objects.count(), 1)
+
+    # ========================================================
+    # VALIDATION & ERROR HANDLING
+    # ========================================================
+
+    def test_invalid_title_returns_400(self):
+        self.client.force_authenticate(user=self.owner)
+
+        invalid_payload = {
+            **self.valid_payload,
+            "title": "<b></b>",
+        }
+
+        response = self.client.post(
+            self.list_url,
+            invalid_payload,
+            format="json"
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(Experience.objects.count(), 1)
+
+    def test_nonexistent_experience_returns_404(self):
+        import uuid
+
+        nonexistent_url = reverse(
+            "api:experience-detail",
+            kwargs={"experience_id": uuid.uuid4()}
+        )
+
+        response = self.client.get(nonexistent_url)
+
+        self.assertEqual(response.status_code, 404)
+
+    # ========================================================
+    # CSRF PROTECTION
+    # ========================================================
+
+    def test_authenticated_session_request_without_csrf_is_denied(self):
+        csrf_client = APIClient(enforce_csrf_checks=True)
+
+        # Login menggunakan session authentication
+        logged_in = csrf_client.login(
+            username="owner",
+            password="password123"
+        )
+        self.assertTrue(logged_in)
+
+        # POST tanpa CSRF token harus ditolak
+        response = csrf_client.post(
+            self.list_url,
+            self.valid_payload,
+            format="json"
+        )
+
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(Experience.objects.count(), 1)
