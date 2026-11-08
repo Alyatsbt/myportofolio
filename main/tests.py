@@ -38,36 +38,17 @@ class ExperienceTest(TestCase):
         response = self.client.get(
             reverse("main:show_experience")
         )
-        self.assertEqual(
-            response.status_code,
-            200
-        )
-        self.assertTemplateUsed(
-            response,
-            "experience.html"
-        )
-        self.assertContains(
-            response,
-            self.experience.title
-        )
-        self.assertContains(
-            response,
-            self.experience.organization
-        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "experience.html")
+        # Data Experience dimuat melalui JavaScript dan API.
+        self.assertContains(response, 'id="experience-grid"')
+        self.assertContains(response, "/api/experiences/")
 
     def test_empty_experience_page(self):
         Experience.objects.all().delete()
-        response = self.client.get(
-            reverse("main:show_experience")
-        )
-        self.assertEqual(
-            response.status_code,
-            200
-        )
-        self.assertContains(
-            response,
-            "Belum ada pengalaman yang ditambahkan."
-        )
+        response = self.client.get("/api/experiences/")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), [])
 
     def test_experience_search_by_title(self):
         Experience.objects.create(
@@ -76,21 +57,17 @@ class ExperienceTest(TestCase):
             description="Mendesain interface.",
         )
         response = self.client.get(
-            reverse("main:show_experience"),
+            "/api/experiences/",
             {"title": "UI UX"}
-        )
-        self.assertEqual(
-            response.status_code,
-            200
-        )
-        self.assertContains(
-            response,
-            "UI UX Designer"
-        )
-        self.assertNotContains(
-            response,
-            "Asisten Dosen PBP"
-        )
+        )   
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        titles = [
+            item["fields"]["title"]
+            for item in data
+        ]
+        self.assertIn("UI UX Designer", titles)
+        self.assertNotIn("Asisten Dosen PBP", titles)
 
     def test_completed_experience(self):
         self.experience.is_ongoing = False
@@ -773,6 +750,16 @@ class ProjectAPITest(TestCase):
             password="user123"
         )
 
+        self.editor = User.objects.create_user(
+            username="editor",
+            password="editor123"
+        )
+
+        self.editor_group = Group.objects.create(
+            name="Editor"
+        )
+        self.editor.groups.add(self.editor_group)
+
         self.project = Project.objects.create(
             title="FocusBuddy",
             subtitle="AI-Powered Task Decomposition",
@@ -785,6 +772,60 @@ class ProjectAPITest(TestCase):
         self.detail_url = reverse(
             "api:project-detail",
             args=[self.project.id]
+        )
+
+    def test_editor_can_update_project_through_api(self):
+        self.client.force_login(self.editor)
+
+        response = self.client.patch(
+            self.detail_url,
+            {"title": "Updated by Editor"},
+            content_type="application/json"
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        self.project.refresh_from_db()
+
+        self.assertEqual(
+            self.project.title,
+            "Updated by Editor"
+        )
+
+    def test_editor_cannot_create_project_through_api(self):
+        self.client.force_login(self.editor)
+
+        payload = {
+            "title": "Editor Project",
+            "subtitle": "Test",
+            "description": "Should not be created",
+        }
+
+        response = self.client.post(
+            self.list_url,
+            payload,
+            content_type="application/json"
+        )
+
+        self.assertEqual(response.status_code, 403)
+
+        self.assertFalse(
+            Project.objects.filter(
+                title="Editor Project"
+            ).exists()
+        )
+
+    def test_editor_cannot_delete_project_through_api(self):
+        self.client.force_login(self.editor)
+
+        response = self.client.delete(self.detail_url)
+
+        self.assertEqual(response.status_code, 403)
+
+        self.assertTrue(
+            Project.objects.filter(
+                id=self.project.id
+            ).exists()
         )
 
     # --------------------------------------------------------
