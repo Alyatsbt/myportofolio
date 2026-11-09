@@ -1,3 +1,4 @@
+
 {% extends 'base.html' %}
 
 {% block meta %}
@@ -31,7 +32,6 @@
                 {% endif %}
             </div>
 
-
             <!-- Search -->
             <form id="project-search-form" class="project-search">
                 <input
@@ -49,24 +49,20 @@
                 </button>
             </form>
 
-
             <!-- Loading State -->
             <div id="loading" class="empty-state hide">
                 <p>Memuat projects...</p>
             </div>
-
 
             <!-- Error State -->
             <div id="error" class="empty-state hide">
                 <p>Gagal memuat data projects. Silakan coba lagi.</p>
             </div>
 
-
             <!-- Empty State -->
             <div id="empty" class="empty-state hide">
                 <p>Belum ada proyek yang ditambahkan atau ditemukan.</p>
             </div>
-
 
             <!-- Project Grid -->
             <div id="grid" class="projects-grid hide"></div>
@@ -75,12 +71,9 @@
     </section>
 </main>
 
-
-{% if user.is_superuser %}
+{% if user.is_superuser or is_editor %}
     {% include "components/project_form_modal.html" %}
 {% endif %}
-
-
 
 {% csrf_token %}
 
@@ -91,19 +84,28 @@
 
     const BASE_PROJECTS_ENDPOINT =
         "{% url 'api:project-list' %}";
+
     const DETAIL_PROJECT_ENDPOINT =
         "{% url 'api:project-detail' '00000000-0000-0000-0000-000000000000' %}";
+
     const STAR_PROJECT_ENDPOINT =
         "{% url 'api:project-star' '00000000-0000-0000-0000-000000000000' %}";
+
     const IS_SUPERUSER =
         "{{ user.is_superuser|yesno:'true,false' }}" === "true";
+
     const IS_AUTHENTICATED =
         "{{ user.is_authenticated|yesno:'true,false' }}" === "true";
+
     const IS_EDITOR =
         "{{ is_editor|yesno:'true,false' }}" === "true";
+
     const SEARCH_DEBOUNCE_DELAY = 300;
+
     let projectsAbortController;
     let searchDebounceTimer;
+    let editingProjectId = null;
+
 
     // ============================================================
     // 2. DOM ELEMENTS
@@ -116,10 +118,16 @@
 
     const searchForm =
         document.getElementById("project-search-form");
+
     const searchInput =
         document.getElementById("search-input");
+
     const projectForm =
         document.getElementById("project-form");
+
+    const projectModal =
+        document.getElementById("add-project-modal");
+
 
     // ============================================================
     // 3. HELPER FUNCTIONS
@@ -127,14 +135,17 @@
 
     function getCookie(name) {
         const prefix = `${name}=`;
+
         const cookie = document.cookie
             .split(";")
             .map(value => value.trim())
             .find(value => value.startsWith(prefix));
+
         return cookie
             ? decodeURIComponent(cookie.slice(prefix.length))
             : null;
     }
+
 
     function escapeHtml(value) {
         return String(value ?? "")
@@ -145,12 +156,14 @@
             .replaceAll("'", "&#39;");
     }
 
+
     function projectEndpoint(pattern, id) {
         return pattern.replace(
             "00000000-0000-0000-0000-000000000000",
             id
         );
     }
+
 
     function displayPageSection({
         showLoading = false,
@@ -165,6 +178,29 @@
     }
 
 
+    function setProjectModalMode(isEditing) {
+        const modalTitle =
+            document.getElementById("add-project-modal-title")
+            || projectModal?.querySelector("h1, h2, h3, .modal-title");
+
+        const submitButton = projectForm?.querySelector(
+            'button[type="submit"]'
+        );
+
+        if (modalTitle) {
+            modalTitle.textContent = isEditing
+                ? "Update Project"
+                : "Tambah Project Baru";
+        }
+
+        if (submitButton) {
+            submitButton.textContent = isEditing
+                ? "Simpan Perubahan"
+                : "Tambah Project";
+        }
+    }
+
+
     // ============================================================
     // 4. BUILD PROJECT CARD
     // ============================================================
@@ -172,6 +208,7 @@
     function buildProjectCardElement(project) {
         const article = document.createElement("article");
         article.className = "project-card";
+
         // Project image
         const imageHtml = project.thumbnail
             ? `
@@ -203,20 +240,17 @@
             `
             : "";
 
-        // Update URL (fitur lama tetap dipertahankan)
-        const updateUrl =
-            "{% url 'main:update_project' '00000000-0000-0000-0000-000000000000' %}"
-                .replace(
-                    "00000000-0000-0000-0000-000000000000",
-                    project.id
-                );
-
         // Update button
         const updateHtml = (IS_SUPERUSER || IS_EDITOR)
             ? `
-                <a href="${updateUrl}" class="btn-card">
+                <button
+                    type="button"
+                    class="btn-card"
+                    data-action="update"
+                    data-id="${escapeHtml(project.id)}"
+                >
                     Update
-                </a>
+                </button>
             `
             : "";
 
@@ -262,21 +296,26 @@
             <div class="project-image-wrapper">
                 ${imageHtml}
             </div>
+
             <div class="project-body">
                 <h2 class="project-title">
                     ${escapeHtml(project.title)}
                 </h2>
+
                 <p class="project-subtitle">
                     ${escapeHtml(project.subtitle)}
                 </p>
+
                 <div class="project-description">
                     ${escapeHtml(project.description)}
                 </div>
+
                 <div class="project-action">
                     <div class="action-row1">
                         ${urlHtml}
                         ${starHtml}
                     </div>
+
                     <div class="action-row2">
                         ${updateHtml}
                         ${deleteHtml}
@@ -284,8 +323,10 @@
                 </div>
             </div>
         `;
+
         return article;
     }
+
 
     // ============================================================
     // 5. FETCH PROJECTS (GET)
@@ -295,40 +336,52 @@
         if (projectsAbortController) {
             projectsAbortController.abort();
         }
+
         projectsAbortController = new AbortController();
+
         try {
             displayPageSection({
                 showLoading: true
             });
+
             const url = new URL(
                 BASE_PROJECTS_ENDPOINT,
                 window.location.origin
             );
+
             if (searchQuery) {
                 url.searchParams.set("title", searchQuery);
             }
+
             const response = await fetch(url, {
                 headers: {
                     "Accept": "application/json"
                 },
                 signal: projectsAbortController.signal
             });
+
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}`);
             }
+
             const projects = await response.json();
+
             gridContainer.replaceChildren(
                 ...projects.map(buildProjectCardElement)
             );
+
             displayPageSection({
                 showGrid: projects.length > 0,
                 showEmpty: projects.length === 0
             });
+
         } catch (error) {
             if (error.name === "AbortError") {
                 return;
             }
+
             console.error("Error loading projects:", error);
+
             displayPageSection({
                 showError: true
             });
@@ -344,6 +397,7 @@
         const messages = Object.values(data)
             .flat()
             .filter(value => typeof value === "string");
+
         return messages.join(" ")
             || `Request failed (HTTP ${status}).`;
     }
@@ -365,31 +419,41 @@
                 ? undefined
                 : JSON.stringify(payload)
         });
+
         if (response.status === 204) {
             return null;
         }
+
         const data = await response.json().catch(() => ({}));
+
         if (!response.ok) {
             throw new Error(
                 apiErrorMessage(data, response.status)
             );
         }
+
         return data;
     }
 
 
     // ============================================================
-    // 8. ADD PROJECT (POST)
+    // 8. ADD / UPDATE PROJECT (POST / PATCH)
     // ============================================================
 
-    async function addProject(event) {
+    async function saveProject(event) {
         event.preventDefault();
+
         const button = projectForm.querySelector(
             'button[type="submit"]'
         );
+
+        const isEditing = Boolean(editingProjectId);
+
         button.disabled = true;
+
         try {
             const fields = new FormData(projectForm);
+
             const payload = Object.fromEntries(
                 [
                     "title",
@@ -399,25 +463,44 @@
                     "project_url"
                 ].map(name => [name, fields.get(name)])
             );
+
+            const url = isEditing
+                ? projectEndpoint(
+                    DETAIL_PROJECT_ENDPOINT,
+                    editingProjectId
+                )
+                : BASE_PROJECTS_ENDPOINT;
+
             await writeProject(
-                BASE_PROJECTS_ENDPOINT,
-                "POST",
+                url,
+                isEditing ? "PATCH" : "POST",
                 payload
             );
+
             projectForm.reset();
-            document
-                .getElementById("add-project-modal")
-                .hidePopover();
+            editingProjectId = null;
+
+            setProjectModalMode(false);
+
+            projectModal.hidePopover();
+
             showToast(
                 "Berhasil",
-                "Proyek baru berhasil ditambahkan!",
+                isEditing
+                    ? "Proyek berhasil diperbarui!"
+                    : "Proyek baru berhasil ditambahkan!",
                 "success"
             );
+
             await fetchProjects(searchInput.value.trim());
 
         } catch (error) {
+            console.error("Error saving project:", error);
+
             showToast(
-                "Gagal menambahkan proyek",
+                isEditing
+                    ? "Gagal memperbarui proyek"
+                    : "Gagal menambahkan proyek",
                 error.message,
                 "error"
             );
@@ -429,12 +512,77 @@
 
 
     if (projectForm) {
-        projectForm.addEventListener("submit", addProject);
+        projectForm.addEventListener("submit", saveProject);
     }
 
 
     // ============================================================
-    // 9. STAR & DELETE (EVENT DELEGATION)
+    // 9. OPEN UPDATE PROJECT POPOVER (GET)
+    // ============================================================
+
+    async function openEditProject(projectId) {
+        if (!projectForm || !projectModal) {
+            throw new Error("Project form tidak ditemukan.");
+        }
+
+        const url = projectEndpoint(
+            DETAIL_PROJECT_ENDPOINT,
+            projectId
+        );
+
+        const response = await fetch(url, {
+            headers: {
+                "Accept": "application/json"
+            }
+        });
+
+        const project = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+            throw new Error(
+                apiErrorMessage(project, response.status)
+            );
+        }
+
+        // Fill form with existing project data
+        [
+            "title",
+            "subtitle",
+            "description",
+            "thumbnail",
+            "project_url"
+        ].forEach(name => {
+            const field = projectForm.elements.namedItem(name);
+
+            if (field && field.type !== "file") {
+                field.value = project[name] ?? "";
+            }
+        });
+
+        editingProjectId = projectId;
+
+        setProjectModalMode(true);
+
+        projectModal.showPopover();
+    }
+
+
+    // Reset form when popover closes
+    if (projectModal && projectForm) {
+        projectModal.addEventListener("toggle", function(event) {
+            if (event.newState === "closed") {
+                editingProjectId = null;
+
+                projectForm.reset();
+
+                setProjectModalMode(false);
+            }
+        });
+    }
+
+
+    // ============================================================
+    // 10. STAR / DELETE / UPDATE (EVENT DELEGATION)
     // ============================================================
 
     gridContainer.addEventListener("click", async function(event) {
@@ -445,7 +593,32 @@
         }
 
         const action = button.dataset.action;
+        const projectId = button.dataset.id;
 
+        // UPDATE
+        if (action === "update") {
+            button.disabled = true;
+
+            try {
+                await openEditProject(projectId);
+
+            } catch (error) {
+                console.error("Error opening project editor:", error);
+
+                showToast(
+                    "Gagal membuka form Update",
+                    error.message,
+                    "error"
+                );
+
+            } finally {
+                button.disabled = false;
+            }
+
+            return;
+        }
+
+        // DELETE confirmation
         if (
             action === "delete" &&
             !window.confirm("Yakin ingin menghapus project ini?")
@@ -462,13 +635,14 @@
 
             const url = projectEndpoint(
                 pattern,
-                button.dataset.id
+                projectId
             );
 
             await writeProject(
                 url,
                 action === "star" ? "POST" : "DELETE"
             );
+
             showToast(
                 "Berhasil",
                 action === "star"
@@ -476,13 +650,16 @@
                     : "Proyek berhasil dihapus!",
                 "success"
             );
+
             await fetchProjects(searchInput.value.trim());
+
         } catch (error) {
             showToast(
                 "Gagal",
                 error.message,
                 "error"
             );
+
         } finally {
             button.disabled = false;
         }
@@ -490,20 +667,23 @@
 
 
     // ============================================================
-    // 10. SEARCH + DEBOUNCE
+    // 11. SEARCH + DEBOUNCE
     // ============================================================
 
     function searchProjects() {
         fetchProjects(searchInput.value.trim());
     }
 
+
     searchInput.addEventListener("input", function() {
         clearTimeout(searchDebounceTimer);
+
         searchDebounceTimer = setTimeout(
             searchProjects,
             SEARCH_DEBOUNCE_DELAY
         );
     });
+
 
     searchForm.addEventListener("submit", function(event) {
         event.preventDefault();
@@ -515,12 +695,11 @@
 
 
     // ============================================================
-    // 11. INITIAL LOAD
+    // 12. INITIAL LOAD
     // ============================================================
 
     fetchProjects(searchInput.value.trim());
 
 </script>
-
 
 {% endblock content %}
