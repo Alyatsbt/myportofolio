@@ -43,7 +43,7 @@ class ExperienceTest(TestCase):
         self.assertTemplateUsed(response, "experience.html")
         # Data Experience dimuat melalui JavaScript dan API.
         self.assertContains(response, 'id="experience-grid"')
-        self.assertContains(response, "/api/experiences/")
+        self.assertContains(response, "/api/v1/experience/")
 
     def test_empty_experience_page(self):
         Experience.objects.all().delete()
