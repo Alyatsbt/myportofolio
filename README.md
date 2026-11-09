@@ -283,3 +283,51 @@ penggunaan:
 AI digunakan sebagai alat bantu untuk memahami konsep, mencari penyebab error, dan mengevaluasi alternatif implementasi. Kode dan keputusan akhir tetap disesuaikan secara manual dengan struktur project yang saya gunakan. Beberapa saran dari AI tidak langsung diterapkan karena perlu disesuaikan dengan model, URL routing, database, dan struktur template yang berbeda dari contoh tutorial.
 
 Salah satu contohnya adalah penggunaan UUID pada primary key `Project`. Perubahan tersebut menyebabkan ketidaksesuaian dengan database dan fixture lama sehingga perlu dilakukan penanganan migration, reset data Project, dan penyesuaian `data.json` secara manual sebelum aplikasi dapat berjalan kembali.
+
+
+## Tugas 6
+
+## Pertanyaan Reflektif
+
+1. REST (*Representational State Transfer*) adalah gaya arsitektur API yang mengatur komunikasi antara client dan server melalui resource, URL, dan HTTP methods. Mengembalikan JSON saja belum cukup untuk disebut RESTful karena JSON hanya format data, sedangkan REST juga memiliki prinsip seperti penggunaan resource-based URL, stateless communication, serta HTTP methods sesuai fungsinya. PUT digunakan untuk memperbarui keseluruhan data resource, sedangkan PATCH hanya memperbarui field tertentu. Contohnya, PUT digunakan ketika seluruh informasi project ingin diganti, sementara PATCH lebih tepat jika hanya ingin mengubah judul atau deskripsinya saja.
+
+2. Serializer pada Django REST Framework berfungsi untuk mengubah objek Python dari database menjadi format JSON, sekaligus mengubah dan memvalidasi data yang diterima dari client sebelum disimpan. Dibandingkan merakit dictionary secara manual menggunakan JsonResponse seperti pada Tutorial 05, serializer lebih praktis karena field dan validasi dapat didefinisikan secara terstruktur tanpa harus menulis proses serialisasi satu per satu.
+
+3. Autentikasi (*authentication*) bertugas memverifikasi identitas pengguna, sedangkan otorisasi (*authorization*) menentukan tindakan yang boleh dilakukan pengguna tersebut. Pada project ini, contohnya Editor hanya memiliki izin untuk melakukan update, sedangkan Superuser memiliki akses yang lebih luas. Pemeriksaan hak akses harus dilakukan melalui permission class di server karena menyembunyikan tombol pada template hanya membatasi tampilan frontend. Pengguna tetap bisa mengirim request API secara langsung, sehingga server harus tetap memvalidasi setiap request.
+
+4. Pada SessionAuthentication, browser mengirimkan cookie session secara otomatis sehingga request yang mengubah data berisiko disalahgunakan melalui serangan CSRF. Karena itu, token CSRF diperlukan untuk memastikan request berasal dari interaksi yang sah. Test menggunakan `force_authenticate` tidak cukup untuk menguji perlindungan CSRF karena metode tersebut melewati proses autentikasi session yang sebenarnya. Untuk mengujinya, diperlukan session authentication sungguhan dengan `APIClient` yang mengaktifkan `enforce_csrf_checks=True`, sehingga request tanpa token CSRF dapat dipastikan ditolak.
+
+## Progres Mingguan
+
+- 4 November 2026 :
+  - Menyelesaikan Tutorial 07 tentang Django REST Framework sebagai dasar implementasi REST API pada project.
+
+- 8 November 2026 :
+  - Menambahkan `ExperienceSerializer` untuk menangani proses serialisasi dan validasi data Experience.
+  - Membuat REST API endpoints untuk Experience beserta URL routing-nya.
+
+- 9 November 2026 :
+  - Menambahkan unit tests untuk menguji REST API Experience, termasuk autentikasi, permission, dan berbagai HTTP request.
+  - Mengintegrasikan REST API pada halaman Experience dengan mengganti proses pengambilan dan pengelolaan data menggunakan `fetch`.
+  - Mengubah form Project agar proses penambahan dan pengubahan data menggunakan JavaScript popover, sehingga tidak perlu berpindah ke halaman edit terpisah.
+
+  
+## AI Disclosure
+
+Menjelaskan penggunaan AI untuk membantu pengerjaan Tugas 6 dan memperdalam pemahaman mengenai REST API serta Django REST Framework.
+
+Tools: ChatGPT 
+Log : https://chatgpt.com/share/6af1ee51-4dc0-83ec-9786-3a6197823557 
+
+Penggunaan:
+
+- Membantu memahami konsep REST dan RESTful API, termasuk perbedaan antara format JSON dan prinsip arsitektur REST, serta penggunaan HTTP methods seperti GET, POST, PUT, PATCH, dan DELETE.
+- Membantu memahami fungsi serializer pada Django REST Framework dan perbedaannya dengan proses serialisasi manual menggunakan JsonResponse seperti pada Tutorial 05.
+- Membantu memahami perbedaan autentikasi dan otorisasi, serta implementasi permission class untuk membatasi hak akses pengguna berdasarkan role, seperti Superuser dan Editor.
+- Membantu memahami mekanisme CSRF pada SessionAuthentication dan alasan mengapa pengujian menggunakan force_authenticate tidak cukup untuk membuktikan perlindungan CSRF berjalan.
+- Membantu implementasi migrasi fitur Experience dari penggunaan view Django biasa menjadi REST API menggunakan DRF, termasuk penyesuaian endpoint, serializer, permission, serta unit test.
+- Membantu mengubah proses pengambilan dan pengiriman data pada frontend Experience agar menggunakan fetch API, termasuk implementasi Create, Read, Update, Delete, serta fitur Star dan Unstar tanpa perlu reload halaman.
+- Membantu menerapkan pola integrasi DRF yang sama pada halaman Projects, termasuk penggunaan GET untuk mengambil detail data, POST untuk menambahkan data, PATCH untuk memperbarui data, dan DELETE untuk menghapus data.
+- Membantu debugging selama implementasi, seperti memperbaiki assertion unit test yang masih menggunakan endpoint lama, menyesuaikan nama URL API, menangani error request, serta memperbaiki perilaku UI setelah data diperbarui.
+
+AI sangat membantu dalam memahami perubahan alur pengembangan setelah menggunakan Django REST Framework, terutama karena sebelumnya proses pengambilan dan pengolahan data masih banyak dilakukan melalui view Django biasa. Melalui proses implementasi ini, saya jadi lebih memahami bagaimana backend menyediakan data melalui API, bagaimana frontend mengambil dan mengirim data menggunakan fetch, serta bagaimana serializer dan permission class berperan dalam menjaga struktur data dan keamanan akses. Namun, penggunaan AI tetap memerlukan pengecekan dan pengujian secara langsung karena kode yang dihasilkan belum tentu langsung sesuai dengan struktur project yang sudah ada. Beberapa saran perlu disesuaikan kembali dengan implementasi sebelumnya, kemudian diverifikasi melalui browser dan unit test agar fitur tetap berjalan dengan benar.
